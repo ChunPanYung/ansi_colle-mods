@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "slim_os"
+version = "0.1.0"
+description = "Namespace that stores Ansible collections."
+
+license = "MIT"
+
+authors = [
+    "Chun Pan Yung"
+]
+
+repository = "https://github.com/chunpanyung/slim_os"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+pip = ">=23.1.2"
+ansible = ">=8.0.0"
+antsibull-changelog = ">=0.20"
+
+[tool.poetry.group.dev.dependencies]
+ansible-lint = { version = ">=6.17", markers = "platform_system != 'Windows'" }
+tomli-w = ">=1.0" # For ansible-inventory command
+yamllint = ">=1.30"
+pywinrm = ">=0.4"
+pytest-testinfra = ">=8.1"
+molecule = ">=4.0"
+molecule-plugins = ">=23.4"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]

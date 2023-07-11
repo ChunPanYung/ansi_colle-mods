@@ -1,0 +1,8 @@
+.directory
+
+# ansible
+hosts
+
+# poetry
+.venv
+poetry.lock

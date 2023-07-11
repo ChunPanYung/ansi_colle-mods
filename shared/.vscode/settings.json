@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.yml": "ansible",
+        "hosts": "ini"
+    },
+    "ansible.python.interpreterPath": "./.venv/bin/python",
+}
