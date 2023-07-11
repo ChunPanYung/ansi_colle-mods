@@ -1,0 +1,20 @@
+---
+namespace: ansi_shared
+name: mods
+version: 1.0.0
+readme: README.md
+
+authors:
+  - Chun Pan Yung
+
+description: Collections of various plugins and modules
+
+license:
+  - MIT
+
+tags:
+  - plugins
+
+dependencies: {}
+
+repository: https://github.com/ChunPanYung/ansi_shared
