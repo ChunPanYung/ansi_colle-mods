@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "ansi_shared"
+version = "1.0.0"
+description = "Namespace that stores Ansible modules."
+
+license = "MIT"
+
+authors = [
+    "Chun Pan Yung"
+]
+
+repository = "https://github.com/chunpanyung/ansi_shared"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+pip = ">=23.1.2"
+ansible = ">=8.0.0"
+
+[tool.poetry.group.dev.dependencies]
+ansible-lint = { version = ">=6.17", markers = "platform_system != 'Windows'" }
+yamllint = ">=1.30"
+pywinrm = ">=0.4"
+molecule = ">=4.0"
+molecule-plugins = ">=23.4"
