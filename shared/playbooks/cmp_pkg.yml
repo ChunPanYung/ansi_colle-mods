@@ -1,0 +1,10 @@
+---
+- name: Test plugins cmp_pkg
+  hosts: localhost
+  tasks:
+    - name: Ping test
+      ansible.builtin.ping:
+
+    - name: Test module itself
+      ansi_shared.shared.cmp_pkg:
+        name: hello world!
