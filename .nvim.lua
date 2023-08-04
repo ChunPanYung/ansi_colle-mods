@@ -8,5 +8,5 @@ vim.filetype.add {
 }
 
 vim.api.nvim_create_autocmd("VimEnter", {
-  command = "silent! <cmd>poetry shell"
+  command = "silent! <cmd>poetry shell<cr>"
 })
