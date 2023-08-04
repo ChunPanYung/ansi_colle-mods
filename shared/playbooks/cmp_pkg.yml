@@ -6,5 +6,5 @@
       ansible.builtin.ping:
 
     - name: Test module itself
-      ansi_shared.shared.cmp_pkg:
+      ansi_colle.shared.cmp_pkg:
         name: hello world!
