@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "slim_os"
+name = "ansi_shared"
 version = "0.1.0"
-description = "Namespace that stores Ansible collections."
+description = "Namespace that stores non-Ansible roles."
 
 license = "MIT"
 
@@ -9,7 +9,7 @@ authors = [
     "Chun Pan Yung"
 ]
 
-repository = "https://github.com/chunpanyung/slim_os"
+repository = "https://github.com/chunpanyung/ansi_shared"
 
 [build-system]
 requires = ["poetry-core"]
