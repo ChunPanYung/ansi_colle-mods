@@ -14,8 +14,8 @@ $spec = @{
 
 [Ansible.Basic.AnsibleModule]$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
-function Run-Winget {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+function Invoke-Winget {
+    [CmdletBinding()]
     [OutputType([hashtable])]
     param(
         [Parameter(Mandatory = $true)]
@@ -34,12 +34,12 @@ function Run-Winget {
     Process {
         [string]$output = ""
         if ((-not $State) -or ($State -eq 'present')) {
-            return output = winget install --id $Id --extract
+            return $output = winget install --id $Id --extract
         } else {
-            return winget uninstall --id $Id --extract
+            return $output = winget uninstall --id $Id --extract
         }
     } # end Process
 } # end function
 
-$module.Result.output = Run-Winget -Module $module -Id $id -State $state
+$module.Result.output = Invoke-Winget -Module $module -Id $id -State $state
 $module.ExitJson()
