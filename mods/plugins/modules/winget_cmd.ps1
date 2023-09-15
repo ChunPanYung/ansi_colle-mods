@@ -30,12 +30,12 @@ if ((-not $state) -or ($state -eq 'present')) {
 }
 
 # Remove empty lines
-$stdout = $stdout.Trim()
+$stdout = $stdout | Out-String -Stream
 
 $module.Result.rc = $LASTEXITCODE
-if ($module.Result.rc -ne 0) {
+if ($module.Result.rc -eq -1978335212) {
     $module.Result.stderr = $stdout
-    $module.FailJson("Failed to install or remove packages.")
+    $module.FailJson("Failed to found package.")
 } else{
     $module.Result.stdout = $stdout
 }
