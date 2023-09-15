@@ -8,5 +8,5 @@
       register: output
 
     - name: Print output
-      ansible.biltin.debug:
+      ansible.builtin.debug:
         var: output
