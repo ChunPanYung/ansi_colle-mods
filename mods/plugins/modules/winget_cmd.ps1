@@ -15,15 +15,29 @@ $spec = @{
 
 [Ansible.Basic.AnsibleModule]$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
+# Setup default value
+$module.Result.changed = $false
+$module.Result.failed = $false
 $state = $module.Params.state
 $id = $module.Params.id
 
+# Execute winget command to install packages
+[string]$stdout = $null
 if ((-not $state) -or ($state -eq 'present')) {
-    $module.Result.output = winget install --id $id --exact
+    $stdout = winget install --id $id --exact
 } else {
-    $module.Result.output = winget uninstall --id $id --exact
+    $stdout = winget uninstall --id $id --exact
 }
 
-# Idempotency
+# Remove empty lines
+$stdout = $stdout.Trim()
+
+$module.Result.rc = $LASTEXITCODE
+if ($module.Result.rc -ne 0) {
+    $module.Result.stderr = $stdout
+    $module.FailJson("Failed to install or remove packages.")
+} else{
+    $module.Result.stdout = $stdout
+}
 
 $module.ExitJson()
