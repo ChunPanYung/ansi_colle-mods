@@ -1,6 +1,6 @@
 ---
 - name: Test module winget_cmd
-  hosts: all
+  hosts: windows
   tasks:
     - name: Install firefox with custom module
       ansi_shared.mods.winget_cmd:
