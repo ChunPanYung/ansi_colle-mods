@@ -1,7 +1,6 @@
 #!powershell
 
 #AnsibleRequires -CSharpUtil Ansible.Basic
-#AnsibleRequires -PowerShell Ansible.ModuleUtils.Process
 
 # Set-StrictMode -Version "Latest"
 
