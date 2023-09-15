@@ -17,11 +17,10 @@ $spec = @{
 $state = $module.Params.state
 
 # [string]$output = ""
-if ((-not $State) -or ($State -eq 'present')) {
-    $output = winget install --id $module.Params.id --extract
+if ((-not $state) -or ($state -eq 'present')) {
+    $module.Result.output = winget install --id $module.Params.id --extract
 } else {
-    $output = winget uninstall --id $module.Params.id --extract
+    $module.Result.output = winget uninstall --id $module.Params.id --extract
 }
 
-$module.Result.output = Invoke-Winget -Module $module -Id $id -State $state
 $module.ExitJson()
