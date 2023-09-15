@@ -41,5 +41,8 @@ function Invoke-Winget {
     } # end Process
 } # end function
 
+$id = $module.Params.id
+$state = $module.Params.state
+
 $module.Result.output = Invoke-Winget -Module $module -Id $id -State $state
 $module.ExitJson()
