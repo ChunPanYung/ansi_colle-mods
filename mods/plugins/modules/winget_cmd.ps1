@@ -1,4 +1,4 @@
-#!powershell
+#}!powershell
 
 #AnsibleRequires -CSharpUtil Ansible.Basic
 #AnsibleRequires -PowerShell ansible.windows.plugins.module_utils.Process
@@ -9,6 +9,7 @@ $spec = @{
     options = @{
         id = @{ type = "str"; required = $true }
         state = @{ type = "str"; choices = "absent", "present" }
+        debug = @{ type = "bool" }
     }
     supports_check_mode = $false
 }
@@ -25,18 +26,21 @@ $id = $module.Params.id
 [string[]]$output = $null
 if ((-not $state) -or ($state -eq 'present')) {
     $output = winget install --id $id --exact --silent
-    # $module.Result.output = winget install --id $id --exact --silent
 } else {
     $output = winget uninstall --id $id --exact --silent
 }
 
-# Filter string array -- must contains at least one letter.
-$module.Result.output = $output # | Select-String -Pattern '[A-Za-z]+'
-
 $module.Result.rc = $LASTEXITCODE
+
+if ($module.Params.debug) {
+    $module.Result.output = $output
+}
+
 if ($module.Result.rc -eq -1978335212) {
     $module.Result.stderr = $stdout
     $module.FailJson("Failed to found package.")
+} elseif ($module.Result.rc -eq -1978335189) {
+    $module.Result.stdout = "Package already installed."
 }
 
 
