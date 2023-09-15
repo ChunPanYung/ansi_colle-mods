@@ -1,0 +1,12 @@
+---
+- name: Test module winget_cmd
+  hosts: all
+  tasks:
+    - name: Install firefox with custom module
+      ansi_shared.mods.winget_cli:
+        id: Mozilla.Firefox
+      register: output
+
+    - name: Print output
+      ansible.biltin.debug:
+        var: output
