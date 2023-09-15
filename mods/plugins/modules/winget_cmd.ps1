@@ -31,7 +31,7 @@ if ((-not $state) -or ($state -eq 'present')) {
 }
 
 # Filter string array -- must contains at least one letter.
-$module.Result.output = $output | Select-String -Pattern '[A-Za-z]+'
+$module.Result.output = $output # | Select-String -Pattern '[A-Za-z]+'
 
 $module.Result.rc = $LASTEXITCODE
 if ($module.Result.rc -eq -1978335212) {
