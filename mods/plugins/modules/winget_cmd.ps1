@@ -22,16 +22,15 @@ $state = $module.Params.state
 $id = $module.Params.id
 
 # Execute winget command to install packages
-[string]$stdout = $null
+[string[]]$output = $null
 if ((-not $state) -or ($state -eq 'present')) {
-    # $stdout = winget install --id $id --exact --silent
-    $module.Result.output = winget install --id $id --exact --silent
+    $output = winget install --id $id --exact --silent
+    # $module.Result.output = winget install --id $id --exact --silent
 } else {
-    $stdout = winget uninstall --id $id --exact --silent
+    $output = winget uninstall --id $id --exact --silent
 }
 
-# Remove empty lines
-# $stdout = $stdout | Out-String
+$module.Result.output = $output
 
 $module.Result.rc = $LASTEXITCODE
 if ($module.Result.rc -eq -1978335212) {
