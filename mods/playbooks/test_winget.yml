@@ -3,7 +3,7 @@
   hosts: all
   tasks:
     - name: Install firefox with custom module
-      ansi_shared.mods.winget_cli:
+      ansi_shared.mods.winget_cmd:
         id: Mozilla.Firefox
       register: output
 
