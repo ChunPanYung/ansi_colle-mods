@@ -13,8 +13,10 @@ license:
   - MIT
 
 tags:
-  - plugins
+  - windows
+  - tools
 
-dependencies: {}
+dependencies:
+  "ansible.windows": "*"
 
 repository: https://github.com/ChunPanYung/ansi_shared
