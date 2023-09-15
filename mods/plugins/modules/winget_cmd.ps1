@@ -25,7 +25,7 @@ $id = $module.Params.id
 [string]$stdout = $null
 if ((-not $state) -or ($state -eq 'present')) {
     # $stdout = winget install --id $id --exact --silent
-    $module.Result.output = winget install --id $id --exact
+    $module.Result.output = winget install --id $id --exact --silent
 } else {
     $stdout = winget uninstall --id $id --exact --silent
 }
