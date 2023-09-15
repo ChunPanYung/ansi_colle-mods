@@ -30,12 +30,15 @@ if ((-not $state) -or ($state -eq 'present')) {
     $output = winget uninstall --id $id --exact --silent
 }
 
-$module.Result.output = $output
+# Filter string array -- must contains at least one letter.
+$module.Result.output = $output | Select-String -Pattern '[A-Za-z]+'
 
 $module.Result.rc = $LASTEXITCODE
 if ($module.Result.rc -eq -1978335212) {
     $module.Result.stderr = $stdout
     $module.FailJson("Failed to found package.")
 }
+
+
 
 $module.ExitJson()
