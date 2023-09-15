@@ -43,6 +43,5 @@ if ($module.Result.rc -eq -1978335212) {
     $module.Result.stdout = "Package already installed."
 }
 
-
-
+$module.Result.stdout_lines = $module.Result.stdout -split [System.Environment]::NewLine
 $module.ExitJson()
