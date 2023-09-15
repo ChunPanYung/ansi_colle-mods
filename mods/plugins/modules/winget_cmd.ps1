@@ -3,7 +3,7 @@
 #AnsibleRequires -CSharpUtil Ansible.Basic
 #AnsibleRequires -PowerShell Ansible.ModuleUtils.AddType
 
-Set-StrictMode -Version "Latest"
+# Set-StrictMode -Version "Latest"
 
 $spec = @{
     options = @{
