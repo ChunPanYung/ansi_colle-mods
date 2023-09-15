@@ -25,7 +25,7 @@ $id = $module.Params.id
 [string]$stdout = $null
 if ((-not $state) -or ($state -eq 'present')) {
     # $stdout = winget install --id $id --exact --silent
-    $module.Params.stdout = winget install --id $id --exact --silent
+    $module.Result.stdout = winget install --id $id --exact --silent
 } else {
     $stdout = winget uninstall --id $id --exact --silent
 }
@@ -37,8 +37,6 @@ $module.Result.rc = $LASTEXITCODE
 if ($module.Result.rc -eq -1978335212) {
     $module.Result.stderr = $stdout
     $module.FailJson("Failed to found package.")
-} else{
-    # $module.Result.stdout = $stdout
 }
 
 $module.ExitJson()
