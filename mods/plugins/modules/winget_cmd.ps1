@@ -1,7 +1,7 @@
 #!powershell
 
 #AnsibleRequires -CSharpUtil Ansible.Basic
-#AnsibleRequires -PowerShell Ansible.ModuleUtils.AddType
+#AnsibleRequires -PowerShell Ansible.ModuleUtils.Process
 
 # Set-StrictMode -Version "Latest"
 
@@ -10,9 +10,13 @@ $spec = @{
         id = @{ type = "str"; required = $true }
         state = @{ type = "str"; choices = "absent", "present" }
     }
+    supports_check_mode = $false
 }
 
-$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
+[Ansible.Basic.AnsibleModule]$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
+
+$id = $module.Params.id
+$state = $module.Params.state
 
 function Invoke-Winget {
     [CmdletBinding()]
@@ -40,9 +44,6 @@ function Invoke-Winget {
         }
     } # end Process
 } # end function
-
-$id = $module.Params.id
-$state = $module.Params.state
 
 $module.Result.output = Invoke-Winget -Module $module -Id $id -State $state
 $module.ExitJson()
