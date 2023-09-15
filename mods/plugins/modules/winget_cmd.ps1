@@ -30,7 +30,7 @@ if ((-not $state) -or ($state -eq 'present')) {
 }
 
 # Remove empty lines
-$stdout = $stdout | Out-String
+# $stdout = $stdout | Out-String
 
 $module.Result.rc = $LASTEXITCODE
 if ($module.Result.rc -eq -1978335212) {
