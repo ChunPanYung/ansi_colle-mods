@@ -12,7 +12,7 @@ $spec = @{
     }
 }
 
-[Ansible.Basic.AnsibleModule]$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
+$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
 function Invoke-Winget {
     [CmdletBinding()]
