@@ -36,17 +36,10 @@ if ($module.Params.debug) {
     $module.Result.output = $output
 }
 
-if ($output -match "Package") {
+if ($output -match "Package already installed") {
     $module.Result.stdout = "Package already installed."
+} elseif ($output -match "No package found") {
+    $module.FailJson("Failed to found package.")
 }
-
-# if ($module.Result.rc -eq -1978335212) {
-#     $module.Result.stderr = $stdout
-#     $module.FailJson("Failed to found package.")
-# } elseif ($module.Result.rc -eq -1978335189) {
-#     $module.Result.stdout = "Package already installed."
-# } elseif ($module.Result.rc -eq 0){
-#     $module.Result.stdout = ""
-# }
 
 $module.ExitJson()
