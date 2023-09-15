@@ -14,35 +14,14 @@ $spec = @{
 
 [Ansible.Basic.AnsibleModule]$module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
-$id = $module.Params.id
 $state = $module.Params.state
 
-function Invoke-Winget {
-    [CmdletBinding()]
-    [OutputType([hashtable])]
-    param(
-        [Parameter(Mandatory = $true)]
-        [Ansible.Basic.AnsibleModule]
-        $Module,
-
-        [Parameter(Mandatory = $true)]
-        [Ansible.Basic.AnsibleModule]
-        $Id,
-
-        [Parameter()]
-        [String]
-        $State
-    )
-
-    Process {
-        [string]$output = ""
-        if ((-not $State) -or ($State -eq 'present')) {
-            return $output = winget install --id $Id --extract
-        } else {
-            return $output = winget uninstall --id $Id --extract
-        }
-    } # end Process
-} # end function
+# [string]$output = ""
+if ((-not $State) -or ($State -eq 'present')) {
+    $output = winget install --id $module.Params.id --extract
+} else {
+    $output = winget uninstall --id $module.Params.id --extract
+}
 
 $module.Result.output = Invoke-Winget -Module $module -Id $id -State $state
 $module.ExitJson()
