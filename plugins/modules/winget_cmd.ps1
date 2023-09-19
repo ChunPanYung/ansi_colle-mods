@@ -41,7 +41,7 @@ if ($output -match "Package already installed") {
 } elseif ($output -match "No package found") {
     $module.FailJson("Failed to found package.")
 } else {
-    $module.Result.stdout = $output
+    $module.Result.output = $output
 }
 
 $module.ExitJson()
