@@ -25,9 +25,9 @@ $id = $module.Params.id
 # Execute winget command to install packages
 [object[]]$output = $null
 if ((-not $state) -or ($state -eq 'present')) {
-    $output = winget install --id $id --exact --silent
+    $output = winget install --id $id --exact
 } else {
-    $output = winget uninstall --id $id --exact --silent
+    $output = winget uninstall --id $id --exact
 }
 
 $module.Result.rc = $LASTEXITCODE
@@ -40,6 +40,8 @@ if ($output -match "Package already installed") {
     $module.Result.stdout = "Package already installed."
 } elseif ($output -match "No package found") {
     $module.FailJson("Failed to found package.")
+} elseif ($output -match "Successfully installed") {
+    $module.Result.changed = $true
 } else {
     $module.Result.output = $output
 }
