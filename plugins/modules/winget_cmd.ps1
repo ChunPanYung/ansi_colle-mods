@@ -32,8 +32,11 @@ if ((-not $state) -or ($state -eq 'present')) {
 $module.Result.rc = $LASTEXITCODE
 
 switch ($module.Result.rc) {
-    -1978335189 {
-        $module.Result.stdout = "Package is already installed."
+    0 { # Sucessfully installed/removed
+        $module.Result.changed = $true
+        break
+    }
+    -1978335189 { # Package is already installed
         break
     }
     -1978335212 {
@@ -42,10 +45,6 @@ switch ($module.Result.rc) {
         } else {
             $module.FailJson("No package found matching input criteria.")
         }
-        break
-    }
-    0 { # Sucessfully installed/removed
-        $module.Result.changed = $true
         break
     }
     Default {
