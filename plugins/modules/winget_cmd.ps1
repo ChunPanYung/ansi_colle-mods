@@ -40,7 +40,10 @@ if ($output -match "Package already installed") {
     $module.Result.stdout = "Package already installed."
 } elseif ($output -match "No package found") {
     $module.FailJson("Failed to found package.")
+} elseif ($output -match "No installed package found") {
 } elseif ($output -match "Successfully installed") {
+    $module.Result.changed = $true
+} elseif($output  -match "Successfully uninstalled") {
     $module.Result.changed = $true
 } else {
     $module.Result.output = $output
