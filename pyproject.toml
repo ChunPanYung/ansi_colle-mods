@@ -23,6 +23,7 @@ antsibull-changelog = ">=0.20"
 
 [tool.poetry.group.dev.dependencies]
 ansible-lint = { version = ">=6.17", markers = "platform_system != 'Windows'" }
+antsibull-changelog = ">=0.23"
 tomli-w = ">=1.0" # For ansible-inventory command
 yamllint = ">=1.30"
 pywinrm = ">=0.4"
