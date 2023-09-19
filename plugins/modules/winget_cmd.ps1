@@ -29,23 +29,22 @@ if ((-not $state) -or ($state -eq 'present')) {
 } else {
     $output = winget uninstall --id $id --exact --silent
 }
-
 $module.Result.rc = $LASTEXITCODE
 
-switch -Regex ("$output") {
-    'Package already installed' {
-        $module.Result.stdout = "Package already installed."
+switch ($module.Result.rc) {
+    -1978335189 {
+        $module.Result.stdout = "Package is already installed."
         break
     }
-    'No package found' {
-        $module.FailJson("Failed to found package.")
+    -1978335212 {
+        if ($state -eq 'absent') {
+            $module.Result.stdout = "No installed package found matching input criteria."
+        } else {
+            $module.FailJson("No package found matching input criteria.")
+        }
         break
     }
-    'Successfully installed' {
-        $module.Result.changed = $true
-        break
-    }
-    'Successfully uninstalled' {
+    0 { # Sucessfully installed/removed
         $module.Result.changed = $true
         break
     }
