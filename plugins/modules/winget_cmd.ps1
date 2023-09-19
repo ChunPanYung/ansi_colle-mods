@@ -8,8 +8,7 @@ Set-StrictMode -Version "Latest"
 $spec = @{
     options = @{
         id = @{ type = "str"; required = $true }
-        state = @{ type = "str"; choices = "absent", "present" }
-        debug = @{ type = "bool" }
+        state = @{ type = "str"; default = "present" ; choices = "absent", "present" }
     }
     supports_check_mode = $false
 }
@@ -19,12 +18,11 @@ $spec = @{
 # Setup default value
 $module.Result.changed = $false
 $module.Result.failed = $false
-$state = $module.Params.state
 $id = $module.Params.id
 
 # Execute winget command to install packages
 [object[]]$output = $null
-if ((-not $state) -or ($state -eq 'present')) {
+if ($module.Params.state -eq 'present') {
     $output = winget install --id $id --exact --silent
 } else {
     $output = winget uninstall --id $id --exact --silent
@@ -40,7 +38,7 @@ switch ($module.Result.rc) {
         break
     }
     -1978335212 {
-        if ($state -ne 'absent') {
+        if ($module.Params.state -ne 'absent') {
             $module.FailJson("No package found matching input criteria.")
         }
         break
