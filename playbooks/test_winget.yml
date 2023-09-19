@@ -6,6 +6,22 @@
       ansi_colle.mods.winget_cmd:
         id: Mozilla.Firefox
 
+    - name: Remove 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: absent
+
+    - name: Remove 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: absent
+
     - name: Install 7-Zip
       ansi_colle.mods.winget_cmd:
         id: 7zip.7zip
+        state: absent
+
+    - name: Install 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: absent
