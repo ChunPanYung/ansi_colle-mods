@@ -28,6 +28,6 @@ sections:
     - Bugfixes
   - - known_issues
     - Known Issues
-title: Ansi_Shared.Mods
+title: ansi_colle.mods
 trivial_section_name: trivial
 use_fqcn: true
