@@ -35,20 +35,19 @@ $module.Result.rc = $LASTEXITCODE
 switch -Regex ($output) {
     'Package already installed' {
         $module.Result.stdout = "Package already installed."
-        break
+        Break
     }
     'No package found' {
         $module.FailJson("Failed to found package.")
-        break
+        Break
     }
-    'Successfully installed' {}
-    'Successfully uninstalled' {
+    'Successfully [un]installed' {
         $module.Result.changed = $true
-        break
+        Break
     }
-    # Default {
-    #     $module.Result.output = $output
-    # }
+    Default {
+        $module.Result.output = $output
+    }
 }
 
 $module.ExitJson()
