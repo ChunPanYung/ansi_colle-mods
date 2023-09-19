@@ -40,9 +40,7 @@ switch ($module.Result.rc) {
         break
     }
     -1978335212 {
-        if ($state -eq 'absent') {
-            $module.Result.stdout = "No installed package found matching input criteria."
-        } else {
+        if ($state -ne 'absent') {
             $module.FailJson("No package found matching input criteria.")
         }
         break
