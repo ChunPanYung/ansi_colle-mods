@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "ansi_shared"
-version = "0.1.0"
+name = "ansi_colle.mods"
+version = "1.0.0"
 description = "Namespace that stores non-Ansible roles."
 
 license = "MIT"
@@ -19,7 +19,6 @@ build-backend = "poetry.core.masonry.api"
 python = ">=3.11"
 pip = ">=23.1.2"
 ansible = ">=8.0.0"
-antsibull-changelog = ">=0.20"
 
 [tool.poetry.group.dev.dependencies]
 ansible-lint = { version = ">=6.17", markers = "platform_system != 'Windows'" }
