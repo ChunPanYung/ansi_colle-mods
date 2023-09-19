@@ -41,7 +41,11 @@ switch -Regex ($output) {
         $module.FailJson("Failed to found package.")
         Break
     }
-    'Successfully [un]installed' {
+    'Successfully installed' {
+        $module.Result.changed = $true
+        Break
+    }
+    'Successfully uninstalled' {
         $module.Result.changed = $true
         Break
     }
