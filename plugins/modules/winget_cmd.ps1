@@ -32,25 +32,21 @@ if ((-not $state) -or ($state -eq 'present')) {
 
 $module.Result.rc = $LASTEXITCODE
 
-switch -Regex ($output) {
+switch -Regex ("$output") {
     'Package already installed' {
         $module.Result.stdout = "Package already installed."
-        $module.Result.output = ''
         break
     }
     'No package found' {
         $module.FailJson("Failed to found package.")
-        $module.Result.output = ''
         break
     }
     'Successfully installed' {
         $module.Result.changed = $true
-        $module.Result.output = ''
         break
     }
     'Successfully uninstalled' {
         $module.Result.changed = $true
-        $module.Result.output = ''
         break
     }
     Default {
