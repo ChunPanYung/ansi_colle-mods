@@ -32,9 +32,9 @@ if ((-not $state) -or ($state -eq 'present')) {
 
 $module.Result.rc = $LASTEXITCODE
 
-if ($module.Params.debug) {
-    $module.Result.output = $output
-}
+# if ($module.Params.debug) {
+#     $module.Result.output = $output
+# }
 
 switch -Regex ($output) {
     'Package already installed' {
