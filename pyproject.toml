@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ansi_colle.mods"
 version = "1.0.0"
-description = "Namespace that stores non-Ansible roles."
+description = "Collection that stores custom Ansible Modules."
 
 license = "MIT"
 
