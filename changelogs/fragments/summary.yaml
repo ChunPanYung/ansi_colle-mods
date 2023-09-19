@@ -1,3 +1,0 @@
----
-release_summary: |
-  Release `winget_cmd` plugins that gives idempotency on winget package install/removal.
