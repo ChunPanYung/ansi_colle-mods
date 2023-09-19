@@ -36,18 +36,23 @@ if ($module.Params.debug) {
     $module.Result.output = $output
 }
 
-if ($output -match "Package already installed") {
-    $module.Result.stdout = "Package already installed."
-} elseif ($output -match "No package found") {
-    $module.FailJson("Failed to found package.")
-} elseif ($output -match "No installed package found matching input criteria") {
-    $module.FailJson("No installed package found matching input criteria.")
-} elseif ($output -match "Successfully installed") {
-    $module.Result.changed = $true
-} elseif($output  -match "Successfully uninstalled") {
-    $module.Result.changed = $true
-} else {
-    $module.Result.output = $output
+switch -Regex ($output) {
+    'Package already installed' {
+        $module.Result.stdout = "Package already installed."
+        break
+    }
+    'No package found' {
+        $module.FailJson("Failed to found package.")
+        break
+    }
+    'Successfully installed' {}
+    'Successfully uninstalled' {
+        $module.Result.changed = $true
+        break
+    }
+    Default {
+        $module.Result.output = $output
+    }
 }
 
 $module.ExitJson()
