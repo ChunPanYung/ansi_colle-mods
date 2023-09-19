@@ -23,7 +23,7 @@ $state = $module.Params.state
 $id = $module.Params.id
 
 # Execute winget command to install packages
-[object[]]$output = $null
+[string[]]$output = $null
 if ((-not $state) -or ($state -eq 'present')) {
     $output = winget install --id $id --exact --silent
 } else {
