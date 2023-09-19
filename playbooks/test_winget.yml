@@ -1,0 +1,27 @@
+---
+- name: Test module winget_cmd
+  hosts: windows
+  tasks:
+    - name: Install firefox with custom module
+      ansi_colle.mods.winget_cmd:
+        id: Mozilla.Firefox
+
+    - name: Install 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: present
+
+    - name: Install 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: present
+
+    - name: Remove 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: absent
+
+    - name: Remove 7-Zip
+      ansi_colle.mods.winget_cmd:
+        id: 7zip.7zip
+        state: absent

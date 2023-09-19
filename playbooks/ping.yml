@@ -1,0 +1,6 @@
+---
+- name: Test run on winget_cmd module.
+  hosts: windows
+  tasks:
+    - name: Ping Test
+      ansible.windows.win_ping:
