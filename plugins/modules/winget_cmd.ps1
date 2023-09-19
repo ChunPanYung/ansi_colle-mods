@@ -25,9 +25,9 @@ $id = $module.Params.id
 # Execute winget command to install packages
 [object[]]$output = $null
 if ((-not $state) -or ($state -eq 'present')) {
-    $output = winget install --id $id --exact
+    $output = winget install --id $id --exact --silent
 } else {
-    $output = winget uninstall --id $id --exact
+    $output = winget uninstall --id $id --exact --silent
 }
 
 $module.Result.rc = $LASTEXITCODE
