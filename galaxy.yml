@@ -1,0 +1,22 @@
+---
+namespace: ansi_colle
+name: mods
+version: 1.0.0
+readme: README.md
+
+authors:
+  - Chun Pan Yung
+
+description: Collections of various plugins and modules
+
+license:
+  - MIT
+
+tags:
+  - windows
+  - tools
+
+dependencies:
+  "ansible.windows": "*"
+
+repository: https://github.com/ChunPanYung/ansi_shared

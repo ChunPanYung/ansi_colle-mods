@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "redhat.ansible",
+        "ms-vscode.powershell",
+        "wdhongtw.gpg-indicator",
+        "bungcip.better-toml"
+    ]
+}

@@ -1,0 +1,18 @@
+---
+- name: Install collections and roles
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install community collections
+      community.general.ansible_galaxy_install:
+        type: collection
+        name: "{{ item }}"
+      loop:
+        - community.general
+
+    - name: Install custom collections
+      community.general.ansible_galaxy_install:
+        type: collection
+        name: "{{ item }}"
+      loop:
+        - "{{ url['ansi_shared'] }},{{ git['ansi_shared'] }}"
