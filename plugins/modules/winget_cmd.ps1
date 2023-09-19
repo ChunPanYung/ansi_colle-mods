@@ -32,10 +32,6 @@ if ((-not $state) -or ($state -eq 'present')) {
 
 $module.Result.rc = $LASTEXITCODE
 
-# if ($module.Params.debug) {
-#     $module.Result.output = $output
-# }
-
 switch -Regex ($output) {
     'Package already installed' {
         $module.Result.stdout = "Package already installed."
@@ -50,9 +46,9 @@ switch -Regex ($output) {
         $module.Result.changed = $true
         break
     }
-    Default {
-        $module.Result.output = $output
-    }
+    # Default {
+    #     $module.Result.output = $output
+    # }
 }
 
 $module.ExitJson()
