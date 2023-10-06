@@ -17,6 +17,6 @@ tags:
   - tools
 
 dependencies:
-  "ansible.windows": "*"
+  ansible.windows: "*"
 
 repository: https://github.com/ChunPanYung/ansi_shared
