@@ -30,6 +30,9 @@ pytest-testinfra = ">=8.1"
 molecule = ">=4.0"
 molecule-plugins = ">=23.4"
 
+[tool.poetry.extras]
+docs = ["git-cliff"]
+
 [tool.pytest.ini_options]
 testpaths = [
     "tests"
