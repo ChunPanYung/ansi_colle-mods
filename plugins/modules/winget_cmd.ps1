@@ -1,4 +1,4 @@
-#}!powershell
+#!powershell
 
 #AnsibleRequires -CSharpUtil Ansible.Basic
 #AnsibleRequires -PowerShell ansible.windows.plugins.module_utils.Process
