@@ -41,7 +41,7 @@ EXAMPLES = r"""
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
     cmd: ansible --version
-    regexp: '(^ansible\.\w+)(\s+)([0-9]+\.[0-9]+\.[0-9]+)'
+    regexp: '[0-9]+.[0-9]+.[0-9]+'
     version: '2.14.1'
 
 # fail the module
