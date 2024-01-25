@@ -27,8 +27,13 @@ options:
         type: str
     version:
         description: desired version for current installation.
-# Specify this value according to your collection
-# in format of namespace.collection.doc_fragment_name
+    occurence:
+        description:
+            - Which version number selected from after running cmd with regexp.
+            - if more than 1 matched version number is returned.
+            - Default is 0.
+            - First occurence is 0, second is 1, and third is 2 etc.
+
 extends_documentation_fragment:
     - ansi_colle.mods.cmp_pkg
 
@@ -64,6 +69,18 @@ rc:
     type: int
     returned: always
     sample: 0
+version_list:
+    description: List of version numbers returned after running cmd with regexp.
+    type: list(str)
+    returned: always
+    sample: ['2.14.1', '3.11.9', '3.1.12']
+version_selected:
+    description:
+        - version selected from version_list for comparison with given version.
+    returned: always
+    type: str
+    sample: '2.14.1'
+
 """
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
