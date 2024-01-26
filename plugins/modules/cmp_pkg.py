@@ -16,23 +16,27 @@ version_added: "1.0.1"
 description: This is my longer description explaining my test module.
 
 options:
-    cmd:
-        description:
-            - Execute the given commands to get the package version number.
+    name:
+        description: name of command to check version with.
         required: true
         type: str
     regexp:
         description: Regexp to use for extracting only the version number.
-        required: false
+        default: '[0-9]+.[0-9]+.[0-9]+'
         type: str
     version:
         description: desired version for current installation.
-    occurence:
+        aliases: [ desired_version ]
+        required: true
+        type: str
+    index:
         description:
             - Which version number selected from after running cmd with regexp.
-            - if more than 1 matched version number is returned.
+            - if more than 1 matched version are returned.
             - Default is 0.
             - First occurence is 0, second is 1, and third is 2 etc.
+        default: 0
+        type: int
 
 extends_documentation_fragment:
     - ansi_colle.mods.cmp_pkg
@@ -45,14 +49,20 @@ EXAMPLES = r"""
 # Pass
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
-    cmd: ansible --version
+    name: ansible --version
     regexp: '[0-9]+.[0-9]+.[0-9]+'
     version: '2.14.1'
 
+- name: Get the second version number after executing cmd with default regexp
+  ansi_colle.mods.cmp_pkg:
+    name: ansible --version
+    index: 1
+    desired_version: 3.12.1
+
 # fail the module
 - name: Test failure of the module
-  ansi_collle.mods.cmp_pkg:
-    cmd: not_existing_commands
+  ansi_colle.mods.cmp_pkg:
+    name: not_existing_commands
 """
 
 RETURN = r"""
@@ -66,6 +76,7 @@ rc:
         - return 1 if desired 'version' is greater than installed version.
         - return 0 if desired 'version' is equal to installed version.
         - return -1 if desired 'version' is less than installed version.
+        - return -2 if it cannot be compared.
     type: int
     returned: always
     sample: 0
@@ -89,28 +100,21 @@ from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        name=dict(type="str", required=True),
-        new=dict(type="bool", required=False, default=False),
+        cmd=dict(type="str", required=True),
+        version=dict(type="str", required=True, aliases=["desired_version"]),
+        regexp=dict(type="str", default="[0-9]+.[0-9]+.[0-9]+"),
+        index=dict(type="int", default=0),
     )
 
-    # seed the result dict in the object
-    # we primarily care about changed and state
-    # changed is if this module effectively modified the target
-    # state will include any data that you want your module to pass back
-    # for consumption, for example, in a subsequent task
-    result = dict(changed=False, original_message="", message="")
+    result = dict(
+        changed=False,
+        message=None,
+        rc=None,
+        version_list=None,
+        version_selected=None,
+    )
 
-    # the AnsibleModule object will be our abstraction working with Ansible
-    # this includes instantiation, a couple of common attr would be the
-    # args/params passed to the execution, as well as if the module
-    # supports check mode
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
-
-    # if the user is working with this module in only check mode we do not
-    # want to make any changes to the environment, just return the current
-    # state with no modifications
-    if module.check_mode:
-        module.exit_json(**result)
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
