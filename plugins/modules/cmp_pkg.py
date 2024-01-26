@@ -17,9 +17,12 @@ description: This is my longer description explaining my test module.
 
 options:
     name:
-        description: name of command to check version with.
+        description:
+            - command name to check version with.
+            - It will append '--version' at the end before running given command.
+        aliases: [ command_name ]
         required: true
-        type: str
+        type: list
     regexp:
         description: Regexp to use for extracting only the version number.
         default: '[0-9]+.[0-9]+.[0-9]+'
@@ -31,7 +34,7 @@ options:
         type: str
     index:
         description:
-            - Which version number selected from after running cmd with regexp.
+            - Which version number selected from after running command.
             - if more than 1 matched version are returned.
             - Default is 0.
             - First occurence is 0, second is 1, and third is 2 etc.
@@ -53,7 +56,7 @@ EXAMPLES = r"""
     regexp: '[0-9]+.[0-9]+.[0-9]+'
     version: '2.14.1'
 
-- name: Get the second version number after executing cmd with default regexp
+- name: Get the second version number after executing command with regexp.
   ansi_colle.mods.cmp_pkg:
     name: ansible --version
     index: 1
@@ -94,13 +97,21 @@ version_selected:
 
 """
 
+import shlex  # noqa: E402
+
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
+from ansible.module_utils.common.text.converters import (  # noqa: E402
+    to_native,  # noqa: E402
+    to_bytes,  # noqa: E402
+    to_text,  # noqa: E402
+)  # noqa: E402
+from ansible.module_utils.common.collections import is_iterable  # noqa: E402
 
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        cmd=dict(type="str", required=True),
+        name=dict(type="str, required=True, aliases=['command_name']),
         version=dict(type="str", required=True, aliases=["desired_version"]),
         regexp=dict(type="str", default="[0-9]+.[0-9]+.[0-9]+"),
         index=dict(type="int", default=0),
@@ -108,23 +119,51 @@ def run_module():
 
     result = dict(
         changed=False,
-        message=None,
+        message="",
         rc=None,
         version_list=None,
         version_selected=None,
+        start=None,
+        end=None,
+        stdout="",
+        stderr="",
     )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
+
+    name = module.params["name"]
+    # Make sure 'name' is not empty.
+    if name.strip() == "":
+        result["message"] = "no command name is given."
+        module.fail_json(**result)
+
+    name = shlex.split(name)
+    # It will only take 1 command_name.
+    if len(name) != 1:
+        result["message"] = "More than 1 command name is given."
+        module.fail_json(**result)
+
+    # 'name' must be strings
+    if is_iterable(name, include_string=False):
+        name = [
+            to_native(arg, errors="surrogate_or_strict", nonstring="simplerepr")
+            for arg in name
+        ]
+
+    # Append '--version' to name
+    if isinstance(name, list):
+        name.append("--version")
+    else:
+        name += " --version"
+
+    result["rc"], result["stdout"], result["stderr"] = module.run_command(
+        name,
+    )
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
     result["original_message"] = module.params["name"]
     result["message"] = "goodbye"
-
-    # use whatever logic you need to determine whether or not this module
-    # made any modifications to your target
-    if module.params["new"]:
-        result["changed"] = True
 
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
