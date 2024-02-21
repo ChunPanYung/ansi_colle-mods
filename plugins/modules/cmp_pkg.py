@@ -137,41 +137,33 @@ def run_module():
         result["message"] = "no command name is given."
         module.fail_json(**result)
 
-    name = shlex.split(name)
+    args: list = shlex.split(name)
     # It will only take 1 command_name.
-    if len(name) != 1:
+    if len(args) != 1:
         result["message"] = "More than 1 command name is given."
         module.fail_json(**result)
 
-    # 'name' must be strings
-    if is_iterable(name, include_string=False):
-        name = [
-            to_native(arg, errors="surrogate_or_strict", nonstring="simplerepr")
-            for arg in name
-        ]
+    # Append '--version' to args
+    args.append("--version")
 
-    # Append '--version' to name
-    if isinstance(name, list):
-        name.append("--version")
-    else:
-        name += " --version"
-
+    # Execute command regardless whether is it check mode or not.
+    # This module should be change system.
     result['start'] = datetime.datetime.now()
     result["rc"], result["stdout"], result["stderr"] = module.run_command(
-        name,
+        args,
     )
 
     result['end'] = datetime.datetime.now()
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
-    result["original_message"] = module.params["name"]
+    result["original_message"] = module.params["args"]
     result["message"] = "goodbye"
 
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
     # AnsibleModule.fail_json() to pass in the message and the result
-    if module.params["name"] == "fail me":
+    if module.params["args"] == "fail me":
         module.fail_json(msg="You requested this to fail", **result)
 
     # in the event of a successful module execution, you will want to
