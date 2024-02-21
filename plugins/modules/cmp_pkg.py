@@ -156,9 +156,12 @@ def run_module():
     else:
         name += " --version"
 
+    result['start'] = datetime.datetime.now()
     result["rc"], result["stdout"], result["stderr"] = module.run_command(
         name,
     )
+
+    result['end'] = datetime.datetime.now()
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
