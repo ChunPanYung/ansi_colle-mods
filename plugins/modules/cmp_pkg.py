@@ -111,7 +111,7 @@ from ansible.module_utils.common.collections import is_iterable  # noqa: E402
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        name=dict(type="str, required=True, aliases=['command_name']),
+        name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
         regexp=dict(type="str", default="[0-9]+.[0-9]+.[0-9]+"),
         index=dict(type="int", default=0),
@@ -148,22 +148,22 @@ def run_module():
 
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
-    result['start'] = datetime.datetime.now()
+    result["start"] = datetime.datetime.now()
     result["rc"], result["stdout"], result["stderr"] = module.run_command(args)
 
     # TODO: need to filter the result
 
-    result['end'] = datetime.datetime.now()
+    result["end"] = datetime.datetime.now()
 
     # Convert to text for jsonization and usability
-    if result['start'] is not None and result['end'] is not None:
+    if result["start"] is not None and result["end"] is not None:
         # Convert to string
-        result['delta'] = to_text(result['end'] - result['start'])
-        result['end'] = to_text(result['end'])
-        result['start'] = to_text(result['start'])
+        result["delta"] = to_text(result["end"] - result["start"])
+        result["end"] = to_text(result["end"])
+        result["start"] = to_text(result["start"])
 
-    if result['rc'] == -2:
-        result['message'] == 'Version cannot be compared.'
+    if result["rc"] == -2:
+        result["message"] == "Version cannot be compared."
         module.fail_json(**result)
 
     module.exit_json(**result)
