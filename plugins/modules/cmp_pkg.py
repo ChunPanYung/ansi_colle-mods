@@ -149,25 +149,23 @@ def run_module():
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
     result['start'] = datetime.datetime.now()
-    result["rc"], result["stdout"], result["stderr"] = module.run_command(
-        args,
-    )
+    result["rc"], result["stdout"], result["stderr"] = module.run_command(args)
+
+    # TODO: need to filter the result
 
     result['end'] = datetime.datetime.now()
 
-    # manipulate or modify the state as needed (this is going to be the
-    # part where your module will do what it needs to do)
-    result["original_message"] = module.params["args"]
-    result["message"] = "goodbye"
+    # Convert to text for jsonization and usability
+    if result['start'] is not None and result['end'] is not None:
+        # Convert to string
+        result['delta'] = to_text(result['end'] - result['start'])
+        result['end'] = to_text(result['end'])
+        result['start'] = to_text(result['start'])
 
-    # during the execution of the module, if there is an exception or a
-    # conditional state that effectively causes a failure, run
-    # AnsibleModule.fail_json() to pass in the message and the result
-    if module.params["args"] == "fail me":
-        module.fail_json(msg="You requested this to fail", **result)
+    if result['rc'] == 2:
+        result['message'] == 'Version cannot be compared.'
+        module.fail_json(**result)
 
-    # in the event of a successful module execution, you will want to
-    # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(**result)
 
 
