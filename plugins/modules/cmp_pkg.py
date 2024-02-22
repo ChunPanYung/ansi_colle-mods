@@ -98,14 +98,10 @@ version_selected:
 """
 
 import shlex  # noqa: E402
+import datetime  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
-from ansible.module_utils.common.text.converters import (  # noqa: E402
-    to_native,  # noqa: E402
-    to_bytes,  # noqa: E402
-    to_text,  # noqa: E402
-)  # noqa: E402
-from ansible.module_utils.common.collections import is_iterable  # noqa: E402
+from ansible.module_utils.common.text.converters import to_text  # noqa: E402
 
 
 def run_module():
