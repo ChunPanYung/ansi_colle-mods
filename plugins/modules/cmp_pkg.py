@@ -162,7 +162,7 @@ def run_module():
         result['end'] = to_text(result['end'])
         result['start'] = to_text(result['start'])
 
-    if result['rc'] == 2:
+    if result['rc'] == -2:
         result['message'] == 'Version cannot be compared.'
         module.fail_json(**result)
 
