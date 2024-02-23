@@ -7,7 +7,7 @@
 
     - name: Test if desired version is greater than installed version
       ansi_colle.mods.cmp_pkg:
-        name: ansible
+        name: ansible pudding
         version: '3.0.0'
 
     - name: Test if desired version equal to installed version
