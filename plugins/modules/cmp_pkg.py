@@ -125,9 +125,9 @@ def run_module():
 
     args: list = shlex.split(name)
     # It will only take 1 command_name.
-    # if len(args) != 1:
-    #     result["message"] = "Only 1 command name is given."
-    #     module.fail_json(**result)
+    if len(args) != 1:
+        result["message"] = "Only 1 command name is given."
+        module.fail_json(**result)
 
     # Append '--version' to args
     args.append("--version")
@@ -135,51 +135,52 @@ def run_module():
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
     result["start"] = datetime.datetime.now()
-    # rc, stdout, stderr = module.run_command(args)
+    rc, stdout, stderr = module.run_command(args)
 
     # early return if error
-    # if stderr or rc != 0:
-    #     result["rc"] = -2
-    #     result["message"] == "Version cannot be compared."
-    #     module.fail_json(**result)
+    if stderr or rc == -1:
+        result["rc"] = -2
+        result["message"] == "Version cannot be compared."
+        module.fail_json(**result)
+        module.exit_json(**result)
 
     # Return list of version after re.findall() function
-    # result["version_list"] = re.findall(module.params["regexp"], stdout)
+    result["version_list"] = re.findall(module.params["regexp"], stdout)
     # Get only selected version
-    # index: int = module.params["index"]
-    # installed_version = result["version_list"][index]
-    # desired_version = module.params["version"]
-    #
-    # if desired_version < LooseVersion(installed_version):
-    #     result["message"] = (
-    #         "Desired version({}) is less than installed version({}).".format(
-    #             desired_version, installed_version
-    #         )
-    #     )
-    #     result["rc"] = -1
-    # elif desired_version > LooseVersion(installed_version):
-    #     result["message"] = (
-    #         "Desired version({}) is greater than installed version({}).".format(
-    #             desired_version, installed_version
-    #         )
-    #     )
-    #     result["rc"] = 1
-    # else:
-    #     result["message"] = (
-    #         "Desired version({}) matches the installed version({}).".format(
-    #             desired_version, installed_version
-    #         )
-    #     )
-    #     result["rc"] = 0
-    #
-    # result["end"] = datetime.datetime.now()
-    #
-    # # Convert to text for jsonization and usability
-    # if result["start"] is not None and result["end"] is not None:
-    #     # Convert to string
-    #     result["delta"] = to_text(result["end"] - result["start"])
-    #     result["end"] = to_text(result["end"])
-    #     result["start"] = to_text(result["start"])
+    index: int = module.params["index"]
+    installed_version = result["version_list"][index]
+    desired_version = module.params["version"]
+
+    if desired_version < LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is less than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = -1
+    elif desired_version > LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is greater than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = 1
+    else:
+        result["message"] = (
+            "Desired version({}) matches the installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = 0
+
+    result["end"] = datetime.datetime.now()
+
+    # Convert to text for jsonization and usability
+    if result["start"] is not None and result["end"] is not None:
+        # Convert to string
+        result["delta"] = to_text(result["end"] - result["start"])
+        result["end"] = to_text(result["end"])
+        result["start"] = to_text(result["start"])
 
     module.exit_json(**result)
 
