@@ -26,7 +26,8 @@
           ansi_colle.mods.cmp_pkg:
             name: pudding
             version: '2.14.1'
-      resue:
+
+      rescue:
         - name: Test if name parameter is more than 2
           ansi_colle.mods.cmp_pkg:
             name: ansi ble
