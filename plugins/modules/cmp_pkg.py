@@ -109,7 +109,6 @@ def run_module():
     )
 
     result = dict(
-        changed=False,
         message="",
         rc=None,
         version_list=None,
