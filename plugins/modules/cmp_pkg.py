@@ -140,7 +140,6 @@ def run_module():
     if stderr or rc == -1:
         result["rc"] = -2
         module.fail_json(msg="Version cannot be compared.", **result)
-        module.exit_json(**result)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
