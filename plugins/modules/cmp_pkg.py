@@ -142,10 +142,10 @@ def run_module():
     rc, stdout, stderr = module.run_command(args)
 
     # early return if error
-    if stderr or rc != 0:
-        result["rc"] = -2
-        result["message"] == "Version cannot be compared."
-        module.fail_json(**result)
+    # if stderr or rc != 0:
+    #     result["rc"] = -2
+    #     result["message"] == "Version cannot be compared."
+    #     module.fail_json(**result)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
@@ -160,21 +160,21 @@ def run_module():
                 desired_version, installed_version
             )
         )
-        # result["rc"] = -1
+        result["rc"] = -1
     elif desired_version > LooseVersion(installed_version):
         result["message"] = (
             "Desired version({}) is greater than installed version({}).".format(
                 desired_version, installed_version
             )
         )
-        # result["rc"] = 1
+        result["rc"] = 1
     else:
         result["message"] = (
             "Desired version({}) matches the installed version({}).".format(
                 desired_version, installed_version
             )
         )
-        # result["rc"] = 0
+        result["rc"] = 0
 
     result["end"] = datetime.datetime.now()
 
