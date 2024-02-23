@@ -73,7 +73,7 @@ message:
     description: The output message that the test module generates.
     type: str
     returned: always
-    sample: 'The installed version matched the desired version.'
+    sample: 'Desired version matches the installed version.'
 rc:
     description:
         - return 1 if desired 'version' is greater than installed version.
@@ -88,13 +88,6 @@ version_list:
     type: list(str)
     returned: always
     sample: ['2.14.1', '3.11.9', '3.1.12']
-version_selected:
-    description:
-        - version selected from version_list for comparison with given version.
-    returned: always
-    type: str
-    sample: '2.14.1'
-
 """
 
 import shlex  # noqa: E402
@@ -149,16 +142,39 @@ def run_module():
     result["start"] = datetime.datetime.now()
     rc, stdout, stderr = module.run_command(args)
 
-    # Get the version number from command output
+    # early return if error
+    if stderr or rc != 0:
+        result["rc"] = -2
+        result["message"] == "Version cannot be compared."
+        module.fail_json(**result)
+
+    # Return list of version after re.findall() function
+    result["version_list"] = re.findall(module.params["regexp"], stdout)
+    # Get only selected version
     index: int = result["index"]
-    installed_version = re.findall(module.params["regexp"], stdout)[index]
+    installed_version = result["version_list"][index]
     desired_version = module.params["version"]
 
     if desired_version < LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is less than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
         result["rc"] = -1
     elif desired_version > LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is greater than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
         result["rc"] = 1
     else:
+        result["message"] = (
+            "Desired version({}) matches the installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
         result["rc"] = 0
 
     result["end"] = datetime.datetime.now()
@@ -169,10 +185,6 @@ def run_module():
         result["delta"] = to_text(result["end"] - result["start"])
         result["end"] = to_text(result["end"])
         result["start"] = to_text(result["start"])
-
-    if result["rc"] == -2:
-        result["message"] == "Version cannot be compared."
-        module.fail_json(**result)
 
     module.exit_json(**result)
 
