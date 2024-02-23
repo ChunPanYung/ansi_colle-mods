@@ -6,6 +6,6 @@
       ansible.builtin.ping:
 
     - name: Test module itself
-      ansi_colle.shared.cmp_pkg:
+      ansi_colle.mods.cmp_pkg:
         name: ansible
         version: '2.14.1'
