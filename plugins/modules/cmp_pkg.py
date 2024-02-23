@@ -91,7 +91,6 @@ version_list:
 """
 
 import shlex  # noqa: E402
-import datetime  # noqa: E402
 import re  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
@@ -123,7 +122,6 @@ def run_module():
 
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
-    result["start"] = datetime.datetime.now()
     rc, stdout, stderr = module.run_command(args)
 
     # early return if error
