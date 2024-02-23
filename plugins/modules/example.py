@@ -70,9 +70,8 @@ message:
     sample: 'goodbye'
 """
 
-import shlex
-import datetime
-from ansible.module_utils.basic import AnsibleModule
+import shlex  # noqa: E402
+from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 
 
 def run_module():
