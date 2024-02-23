@@ -135,7 +135,7 @@ def run_module():
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
     result["start"] = datetime.datetime.now()
-    rc, stdout, stderr = module.run_command(args)
+    # rc, stdout, stderr = module.run_command(args)
 
     # early return if error
     # if stderr or rc != 0:
@@ -144,7 +144,7 @@ def run_module():
     #     module.fail_json(**result)
 
     # Return list of version after re.findall() function
-    result["version_list"] = re.findall(module.params["regexp"], stdout)
+    # result["version_list"] = re.findall(module.params["regexp"], stdout)
     # Get only selected version
     # index: int = module.params["index"]
     # installed_version = result["version_list"][index]
