@@ -156,21 +156,21 @@ def run_module():
                 desired_version, installed_version
             )
         )
-        result["rc"] = -1
+        # result["rc"] = -1
     elif desired_version > LooseVersion(installed_version):
         result["message"] = (
             "Desired version({}) is greater than installed version({}).".format(
                 desired_version, installed_version
             )
         )
-        result["rc"] = 1
+        # result["rc"] = 1
     else:
         result["message"] = (
             "Desired version({}) matches the installed version({}).".format(
                 desired_version, installed_version
             )
         )
-        result["rc"] = 0
+        # result["rc"] = 0
 
     result["end"] = datetime.datetime.now()
 
