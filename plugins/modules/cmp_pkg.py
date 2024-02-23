@@ -115,8 +115,6 @@ def run_module():
         version_list=None,
         start=None,
         end=None,
-        stdout="",
-        stderr="",
     )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
@@ -137,7 +135,7 @@ def run_module():
     rc, stdout, stderr = module.run_command(args)
 
     # early return if error
-    if stderr or rc == -1:
+    if rc == -1:
         result["rc"] = -2
         module.fail_json(msg="Version cannot be compared.", **result)
 
