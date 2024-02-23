@@ -130,18 +130,6 @@ def run_module():
     result["original_message"] = module.params["name"]
     result["message"] = "goodbye"
 
-    # early return if error
-    if rc == -1:
-        result["rc"] = -2
-        module.fail_json(msg="Version cannot be compared.", **result)
-
-    # Return list of version after re.findall() function
-    result["version_list"] = re.findall(module.params["regexp"], stdout)
-    # Get only selected version
-    index: int = module.params["index"]
-    installed_version = result["version_list"][index]
-    desired_version = module.params["version"]
-
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(**result)
