@@ -71,6 +71,7 @@ message:
 """
 
 import shlex  # noqa: E402
+import re  # noqa: E402
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 
 
