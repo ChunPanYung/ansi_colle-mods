@@ -25,7 +25,7 @@ options:
         type: list
     regexp:
         description: Regexp to use for extracting only the version number.
-        default: '[0-9]+.[0-9]+.[0-9]+'
+        default: '\d+\.\d+\.\d+'
         type: str
     version:
         description: desired version for current installation.
@@ -53,7 +53,7 @@ EXAMPLES = r"""
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
     name: ansible --version
-    regexp: '[0-9]+.[0-9]+.[0-9]+'
+    regexp: '\d+\.\d+\.\d+'
     version: '2.14.1'
 
 - name: Get the second version number after executing command with regexp.
@@ -102,7 +102,7 @@ def run_module():
     module_args = dict(
         name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
-        regexp=dict(type="str", default="[0-9]+.[0-9]+.[0-9]+"),
+        regexp=dict(type="str", default="\d+\.\d+\.\d+"),
         index=dict(type="int", default=0),
     )
 
