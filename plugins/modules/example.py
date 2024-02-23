@@ -122,11 +122,6 @@ def run_module():
     result["original_message"] = module.params["name"]
     result["message"] = "goodbye"
 
-    # use whatever logic you need to determine whether or not this module
-    # made any modifications to your target
-    if module.params["new"]:
-        result["changed"] = True
-
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
     # AnsibleModule.fail_json() to pass in the message and the result
