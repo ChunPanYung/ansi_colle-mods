@@ -146,40 +146,40 @@ def run_module():
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
     # Get only selected version
-    index: int = module.params["index"]
-    installed_version = result["version_list"][index]
-    desired_version = module.params["version"]
-
-    if desired_version < LooseVersion(installed_version):
-        result["message"] = (
-            "Desired version({}) is less than installed version({}).".format(
-                desired_version, installed_version
-            )
-        )
-        # result["rc"] = -1
-    elif desired_version > LooseVersion(installed_version):
-        result["message"] = (
-            "Desired version({}) is greater than installed version({}).".format(
-                desired_version, installed_version
-            )
-        )
-        # result["rc"] = 1
-    else:
-        result["message"] = (
-            "Desired version({}) matches the installed version({}).".format(
-                desired_version, installed_version
-            )
-        )
-        # result["rc"] = 0
-
-    result["end"] = datetime.datetime.now()
-
-    # Convert to text for jsonization and usability
-    if result["start"] is not None and result["end"] is not None:
-        # Convert to string
-        result["delta"] = to_text(result["end"] - result["start"])
-        result["end"] = to_text(result["end"])
-        result["start"] = to_text(result["start"])
+    # index: int = module.params["index"]
+    # installed_version = result["version_list"][index]
+    # desired_version = module.params["version"]
+    #
+    # if desired_version < LooseVersion(installed_version):
+    #     result["message"] = (
+    #         "Desired version({}) is less than installed version({}).".format(
+    #             desired_version, installed_version
+    #         )
+    #     )
+    #     result["rc"] = -1
+    # elif desired_version > LooseVersion(installed_version):
+    #     result["message"] = (
+    #         "Desired version({}) is greater than installed version({}).".format(
+    #             desired_version, installed_version
+    #         )
+    #     )
+    #     result["rc"] = 1
+    # else:
+    #     result["message"] = (
+    #         "Desired version({}) matches the installed version({}).".format(
+    #             desired_version, installed_version
+    #         )
+    #     )
+    #     result["rc"] = 0
+    #
+    # result["end"] = datetime.datetime.now()
+    #
+    # # Convert to text for jsonization and usability
+    # if result["start"] is not None and result["end"] is not None:
+    #     # Convert to string
+    #     result["delta"] = to_text(result["end"] - result["start"])
+    #     result["end"] = to_text(result["end"])
+    #     result["start"] = to_text(result["start"])
 
     module.exit_json(**result)
 
