@@ -125,6 +125,12 @@ def run_module():
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
     rc, stdout, stderr = module.run_command(args)
+
+    # early return if error
+    if rc == -1:
+        result["rc"] = -2
+        module.fail_json(msg="Version cannot be compared.", **result)
+
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
     result["original_message"] = module.params["name"]
