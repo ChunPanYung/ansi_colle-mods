@@ -111,12 +111,19 @@ def run_module():
     # supports check mode
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
-    # if the user is working with this module in only check mode we do not
-    # want to make any changes to the environment, just return the current
-    # state with no modifications
-    if module.check_mode:
-        module.exit_json(**result)
+    name = module.params["name"]
 
+    args: list = shlex.split(name)
+    # It will only take 1 command_name.
+    if len(args) != 1:
+        module.fail_json(msg="More than 1 command name is given.", **result)
+
+    # Append '--version' to args
+    args.append("--version")
+
+    # Execute command regardless whether is it check mode or not.
+    # This module should be change system.
+    rc, stdout, stderr = module.run_command(args)
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
     result["original_message"] = module.params["name"]
