@@ -115,7 +115,8 @@ def run_module():
     args: list = shlex.split(name)
     # It will only take 1 command_name.
     if len(args) != 1:
-        module.fail_json(msg="More than 1 command name is given.", **result)
+        result["rc"] = -2
+        module.fail_json(failed=True, **result)
 
     # Append '--version' to args
     args.append("--version")
