@@ -99,9 +99,11 @@ version_selected:
 
 import shlex  # noqa: E402
 import datetime  # noqa: E402
+import re  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 from ansible.module_utils.common.text.converters import to_text  # noqa: E402
+from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
 
 
 def run_module():
@@ -136,7 +138,7 @@ def run_module():
     args: list = shlex.split(name)
     # It will only take 1 command_name.
     if len(args) != 1:
-        result["message"] = "More than 1 command name is given."
+        result["message"] = "Only 1 command name is given."
         module.fail_json(**result)
 
     # Append '--version' to args
@@ -145,9 +147,19 @@ def run_module():
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
     result["start"] = datetime.datetime.now()
-    result["rc"], result["stdout"], result["stderr"] = module.run_command(args)
+    rc, stdout, stderr = module.run_command(args)
 
-    # TODO: need to filter the result
+    # Get the version number from command output
+    index: int = result["index"]
+    installed_version = re.findall(module.params["regexp"], stdout)[index]
+    desired_version = module.params["version"]
+
+    if desired_version < LooseVersion(installed_version):
+        result["rc"] = -1
+    elif desired_version > LooseVersion(installed_version):
+        result["rc"] = 1
+    else:
+        result["rc"] = 0
 
     result["end"] = datetime.datetime.now()
 
