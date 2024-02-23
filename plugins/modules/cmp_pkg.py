@@ -95,7 +95,6 @@ import datetime  # noqa: E402
 import re  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
-from ansible.module_utils.common.text.converters import to_text  # noqa: E402
 from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
 
 
@@ -108,13 +107,7 @@ def run_module():
         index=dict(type="int", default=0),
     )
 
-    result = dict(
-        message="",
-        rc=None,
-        version_list=None,
-        start=None,
-        end=None,
-    )
+    result = dict(message="", rc=None, version_list=None)
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
@@ -166,15 +159,6 @@ def run_module():
             )
         )
         result["rc"] = 0
-
-    result["end"] = datetime.datetime.now()
-
-    # Convert to text for jsonization and usability
-    if result["start"] is not None and result["end"] is not None:
-        # Convert to string
-        result["delta"] = to_text(result["end"] - result["start"])
-        result["end"] = to_text(result["end"])
-        result["start"] = to_text(result["start"])
 
     module.exit_json(**result)
 
