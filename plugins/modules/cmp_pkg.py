@@ -116,6 +116,7 @@ def run_module():
     # It will only take 1 command_name.
     if len(args) != 1:
         result["rc"] = -2
+        result["msg"] = "'name' parameter should only be given 1 command."
         module.fail_json(**result)
 
     # Append '--version' to args
