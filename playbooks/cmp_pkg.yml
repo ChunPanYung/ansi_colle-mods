@@ -20,12 +20,14 @@
         name: ansible
         version: '2.14.1'
 
-    - name: Test if command name is wrong
-      ansi_colle.mods.cmp_pkg:
-        name: pudding
-        version: '2.14.1'
-  handlers:
-    - name: Test if name parameter is more than 2
-      ansi_colle.mods.cmp_pkg:
-        name: ansi ble
-        version: "2.14.1"
+    - name: Test both fail case
+      block:
+        - name: Test if command name is wrong
+          ansi_colle.mods.cmp_pkg:
+            name: pudding
+            version: '2.14.1'
+      resue:
+        - name: Test if name parameter is more than 2
+          ansi_colle.mods.cmp_pkg:
+            name: ansi ble
+            version: "2.14.1"
