@@ -69,7 +69,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-message:
+msg:
     description: The output message that the test module generates.
     type: str
     returned: always
@@ -106,7 +106,7 @@ def run_module():
         index=dict(type="int", default=0),
     )
 
-    result = dict(message="", version_list=None, rc=None, failed=False)
+    result = dict(msg="", version_list=None, rc=None, failed=False)
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
@@ -137,24 +137,22 @@ def run_module():
     desired_version = module.params["version"]
 
     if desired_version < LooseVersion(installed_version):
-        result["message"] = (
+        result["msg"] = (
             "Desired version({}) is less than installed version({}).".format(
                 desired_version, installed_version
             )
         )
         result["rc"] = -1
     elif desired_version > LooseVersion(installed_version):
-        result["message"] = (
+        result["msg"] = (
             "Desired version({}) is greater than installed version({}).".format(
                 desired_version, installed_version
             )
         )
         result["rc"] = 1
     else:
-        result["message"] = (
-            "Desired version({}) matches the installed version({}).".format(
-                desired_version, installed_version
-            )
+        result["msg"] = "Desired version({}) matches the installed version({}).".format(
+            desired_version, installed_version
         )
         result["rc"] = 0
 
