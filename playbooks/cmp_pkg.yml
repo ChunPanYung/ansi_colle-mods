@@ -1,0 +1,34 @@
+---
+- name: Test plugins cmp_pkg
+  hosts: localhost
+  tasks:
+    - name: Ping test
+      ansible.builtin.ping:
+
+    - name: Test if desired version is greater than installed version
+      ansi_colle.mods.cmp_pkg:
+        name: ansible
+        version: '3.0.0'
+
+    - name: Test if desired version equal to installed version
+      ansi_colle.mods.cmp_pkg:
+        name: ansible
+        version: '2.16.2'
+
+    - name: Test if desired version is less than installed version
+      ansi_colle.mods.cmp_pkg:
+        name: ansible
+        version: '2.14.1'
+
+    - name: Test both fail case
+      block:
+        - name: Test if command name is wrong
+          ansi_colle.mods.cmp_pkg:
+            name: pudding
+            version: '2.14.1'
+
+      rescue:
+        - name: Test if name parameter is more than 2
+          ansi_colle.mods.cmp_pkg:
+            name: ansi ble
+            version: "2.14.1"

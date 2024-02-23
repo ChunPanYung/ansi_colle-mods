@@ -4,6 +4,9 @@ TODO.md
 # ansible
 hosts
 
-# poetry
+# python
+__pycache__
+.venv
+.pytest_cache
 .venv
 poetry.lock
