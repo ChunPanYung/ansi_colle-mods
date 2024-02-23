@@ -84,8 +84,8 @@ def run_module():
         index=dict(type="int", default=0),
     )
 
-    # result = dict(message="", rc=None, version_list=None)
-    result = dict(changed=False, original_message="", message="")
+    result = dict(message="", version_list=None)
+    # result = dict(changed=False, original_message="", message="")
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
