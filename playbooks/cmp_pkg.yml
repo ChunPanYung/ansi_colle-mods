@@ -5,6 +5,10 @@
     - name: Ping test
       ansible.builtin.ping:
 
+    - name: test example module
+      ansi_colle.mods.example:
+        name: 'Hello'
+
     - name: Test if desired version is greater than installed version
       ansi_colle.mods.cmp_pkg:
         name: ansible
