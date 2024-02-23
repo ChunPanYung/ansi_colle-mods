@@ -70,16 +70,35 @@ message:
     sample: 'goodbye'
 """
 
+import shlex
+import datetime
 from ansible.module_utils.basic import AnsibleModule
 
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        name=dict(type="str", required=True),
-        new=dict(type="bool", required=False, default=False),
+        name=dict(type="str", required=True, aliases=["command_name"]),
+        version=dict(type="str", required=True, aliases=["desired_version"]),
+        regexp=dict(type="str", default="[0-9]+.[0-9]+.[0-9]+"),
+        index=dict(type="int", default=0),
     )
 
+    result = dict(message="", rc=None, version_list=None)
+
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
+
+    name = module.params["name"]
+
+    args: list = shlex.split(name)
+    # It will only take 1 command_name.
+    if len(args) != 1:
+        module.fail_json(msg="More than 1 command name is given.", **result)
+
+    # Append '--version' to args
+    args.append("--version")
+
+    rc, stdout, stderr = module.run_command(args)
     # seed the result dict in the object
     # we primarily care about changed and state
     # changed is if this module effectively modified the target
