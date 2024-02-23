@@ -73,6 +73,7 @@ message:
 import shlex  # noqa: E402
 import re  # noqa: E402
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
+from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
 
 
 def run_module():
@@ -117,6 +118,28 @@ def run_module():
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
     desired_version = module.params["version"]
+
+    if desired_version < LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is less than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = -1
+    elif desired_version > LooseVersion(installed_version):
+        result["message"] = (
+            "Desired version({}) is greater than installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = 1
+    else:
+        result["message"] = (
+            "Desired version({}) matches the installed version({}).".format(
+                desired_version, installed_version
+            )
+        )
+        result["rc"] = 0
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
