@@ -116,7 +116,7 @@ def run_module():
     # It will only take 1 command_name.
     if len(args) != 1:
         result["rc"] = -2
-        module.fail_json(failed=True, **result)
+        module.fail_json(**result)
 
     # Append '--version' to args
     args.append("--version")
