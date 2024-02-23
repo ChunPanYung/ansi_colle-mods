@@ -104,27 +104,6 @@ def run_module():
     # changed is if this module effectively modified the target
     # state will include any data that you want your module to pass back
     # for consumption, for example, in a subsequent task
-    result = dict(changed=False, original_message="", message="")
-
-    # the AnsibleModule object will be our abstraction working with Ansible
-    # this includes instantiation, a couple of common attr would be the
-    # args/params passed to the execution, as well as if the module
-    # supports check mode
-    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
-
-    name = module.params["name"]
-
-    args: list = shlex.split(name)
-    # It will only take 1 command_name.
-    if len(args) != 1:
-        module.fail_json(msg="More than 1 command name is given.", **result)
-
-    # Append '--version' to args
-    args.append("--version")
-
-    # Execute command regardless whether is it check mode or not.
-    # This module should be change system.
-    rc, stdout, stderr = module.run_command(args)
 
     # early return if error
     if rc == -1:
