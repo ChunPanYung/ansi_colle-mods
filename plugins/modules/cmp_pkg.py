@@ -75,9 +75,10 @@ msg:
     sample: 'Desired version matches the installed version.'
 rc:
     description:
-        - return 1 if desired 'version' is greater than installed version.
-        - return 0 if desired 'version' is equal to installed version.
-        - return -1 if desired 'version' is less than installed version.
+        - return 2 if no desired version is installed.
+        - return 1 if desired version is greater than installed version.
+        - return 0 if desired version is equal to installed version.
+        - return -1 if desired version is less than installed version.
         - return -2 if it cannot be compared.
     type: int
     returned: always
@@ -129,6 +130,9 @@ def run_module():
     if rc == -1:
         result["rc"] = -2
         module.fail_json(failed=True, **result)
+    elif rc == 2:
+        result["msg"] = "No desired version is installed."
+        module.exit_json(**result)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
