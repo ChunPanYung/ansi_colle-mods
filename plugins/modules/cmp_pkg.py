@@ -101,7 +101,7 @@ def run_module():
     module_args = dict(
         name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
-        regexp=dict(type="str", default="\d+\.\d+\.\d+"),
+        regexp=dict(type="str", default=r"\d+\.\d+\.\d+"),
         index=dict(type="int", default=0),
     )
 
