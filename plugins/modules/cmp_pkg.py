@@ -128,12 +128,7 @@ def run_module():
 
     # Append '--version' to args and get command version
     args.append("--version")
-    rc, stdout, stderr = module.run_command(args, handle_exception=False)
-
-    # early return if error
-    if rc == -1:
-        result["rc"] = -2
-        module.fail_json(failed=True, **result)
+    rc, stdout, stderr = module.run_command(args)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
