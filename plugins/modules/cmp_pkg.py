@@ -52,13 +52,13 @@ EXAMPLES = r"""
 # Pass
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
-    name: ansible --version
+    name: ansible
     regexp: '\d+\.\d+\.\d+'
     version: '2.14.1'
 
 - name: Get the second version number after executing command with regexp.
   ansi_colle.mods.cmp_pkg:
-    name: ansible --version
+    name: ansible
     index: 1
     desired_version: 3.12.1
 
