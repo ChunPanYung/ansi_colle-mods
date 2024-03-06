@@ -124,7 +124,7 @@ def run_module():
 
     # Execute command regardless whether is it check mode or not.
     # This module should be change system.
-    rc, stdout, stderr = module.run_command(args)
+    rc, stdout, stderr = module.run_command(args, handle_exception=False)
 
     # early return if error
     if rc == -1:
