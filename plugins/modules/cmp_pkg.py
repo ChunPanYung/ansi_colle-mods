@@ -107,7 +107,7 @@ def run_module():
         index=dict(type="int", default=0),
     )
 
-    result = dict(msg="", version_list=None, rc=None, failed=False)
+    result = dict(msg="", rc=None, failed=False)
 
     module = AnsibleModule(argument_spec=module_args)
 
