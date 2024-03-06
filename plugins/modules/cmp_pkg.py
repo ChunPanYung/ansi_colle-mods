@@ -92,6 +92,7 @@ version_list:
 
 import shlex  # noqa: E402
 import re  # noqa: E402
+import shutil.which  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
@@ -108,7 +109,7 @@ def run_module():
 
     result = dict(msg="", version_list=None, rc=None, failed=False)
 
-    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
+    module = AnsibleModule(argument_spec=module_args)
 
     name = module.params["name"]
 
@@ -119,20 +120,20 @@ def run_module():
         result["msg"] = "'name' parameter should only be given 1 command."
         module.fail_json(**result)
 
-    # Append '--version' to args
-    args.append("--version")
+    # Early return if command does not exist
+    if not shutil.which(args):
+        result["rc"] = 2
+        result["msg"] = "No desired version is installed."
+        module.exit_json(**result)
 
-    # Execute command regardless whether is it check mode or not.
-    # This module should be change system.
+    # Append '--version' to args and get command version
+    args.append("--version")
     rc, stdout, stderr = module.run_command(args, handle_exception=False)
 
     # early return if error
     if rc == -1:
         result["rc"] = -2
         module.fail_json(failed=True, **result)
-    elif rc == 2:
-        result["msg"] = "No desired version is installed."
-        module.exit_json(**result)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)
