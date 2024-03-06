@@ -121,7 +121,7 @@ def run_module():
         module.fail_json(**result)
 
     # Early return if command does not exist
-    if not shutil.which(args):
+    if not shutil.which(args[0]):
         result["rc"] = 2
         result["msg"] = "No desired version is installed."
         module.exit_json(**result)
