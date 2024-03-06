@@ -92,7 +92,7 @@ version_list:
 
 import shlex  # noqa: E402
 import re  # noqa: E402
-import shutil.which  # noqa: E402
+import shutil  # noqa: E402
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
