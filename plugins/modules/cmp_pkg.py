@@ -52,13 +52,12 @@ EXAMPLES = r"""
 # Pass
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
-    name: ansible --version
-    regexp: '\d+\.\d+\.\d+'
-    version: '2.14.1'
+    command_name: ansible
+    desired_version: '2.14.1'
 
 - name: Get the second version number after executing command with regexp.
   ansi_colle.mods.cmp_pkg:
-    name: ansible --version
+    name: ansible
     index: 1
     desired_version: 3.12.1
 
@@ -76,9 +75,10 @@ msg:
     sample: 'Desired version matches the installed version.'
 rc:
     description:
-        - return 1 if desired 'version' is greater than installed version.
-        - return 0 if desired 'version' is equal to installed version.
-        - return -1 if desired 'version' is less than installed version.
+        - return 2 if no desired version is installed.
+        - return 1 if desired version is greater than installed version.
+        - return 0 if desired version is equal to installed version.
+        - return -1 if desired version is less than installed version.
         - return -2 if it cannot be compared.
     type: int
     returned: always
@@ -102,7 +102,7 @@ def run_module():
     module_args = dict(
         name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
-        regexp=dict(type="str", default="\d+\.\d+\.\d+"),
+        regexp=dict(type="str", default=r"\d+\.\d+\.\d+"),
         index=dict(type="int", default=0),
     )
 
@@ -130,6 +130,9 @@ def run_module():
     if rc == -1:
         result["rc"] = -2
         module.fail_json(failed=True, **result)
+    elif rc == 2:
+        result["msg"] = "No desired version is installed."
+        module.exit_json(**result)
 
     # Return list of version after re.findall() function
     result["version_list"] = re.findall(module.params["regexp"], stdout)

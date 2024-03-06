@@ -15,4 +15,4 @@
         this_collection: git+https://github.com/ChunPanYung/ansi_colle-mods.git
       community.general.ansible_galaxy_install:
         type: collection
-        name: "{{ this_collection }},{{ git_ver | default('main') }}"
+        name: "{{ this_collection }},{{ git_version | default('main') }}"
