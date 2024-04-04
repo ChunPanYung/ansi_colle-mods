@@ -20,6 +20,13 @@
         name: ansible
         version: '2.14.1'
 
+    - name: Test if desired version is less than installed version
+      ansi_colle.mods.cmp_pkg:
+        name: ansible
+        version: '2.14.1'
+        arg: '-v'
+
+
     - name: Test both fail case
       block:
         - name: Test if command name is wrong
@@ -29,6 +36,7 @@
 
       rescue:
         - name: Test if name parameter is more than 2
+          failed_when: false
           ansi_colle.mods.cmp_pkg:
             name: ansi ble
             version: "2.14.1"
