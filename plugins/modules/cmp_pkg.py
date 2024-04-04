@@ -136,7 +136,7 @@ def run_module():
     # Get only selected version
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
-    desired_version = module.params["version"]
+    desired_version = re.match(regexp, module.params["version"]).group(0)
 
     if desired_version < LooseVersion(installed_version):
         result["msg"] = (
