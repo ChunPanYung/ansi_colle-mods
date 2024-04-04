@@ -32,6 +32,12 @@ options:
         aliases: [ desired_version ]
         required: true
         type: str
+    arg:
+        description:
+            - argument that will be appended to command, default is '--version'.
+            - example: if the command is 'bash', it will be 'bash --version'.
+        default: '--version'
+        type: str
     index:
         description:
             - Which version number selected from after running command.
@@ -59,6 +65,7 @@ EXAMPLES = r"""
   ansi_colle.mods.cmp_pkg:
     name: ansible
     index: 1
+    arg: '--version'
     desired_version: 3.12.1
 
 # fail the module
@@ -104,6 +111,7 @@ def run_module():
         name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
         regexp=dict(type="str", default=r"\d+\.\d+\.\d+"),
+        arg=dict(type="str", default=r"--version"),
         index=dict(type="int", default=0),
     )
 
@@ -127,7 +135,7 @@ def run_module():
         module.exit_json(**result)
 
     # Append '--version' to args and get command version
-    args.append("--version")
+    args.append(module.params["arg"])
     rc, stdout, stderr = module.run_command(args)
 
     # Return list of version after re.findall() function
