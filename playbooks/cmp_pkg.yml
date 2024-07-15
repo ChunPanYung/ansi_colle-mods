@@ -5,7 +5,7 @@
     - name: Ping test
       ansible.builtin.ping:
 
-    - name: Test if desired version is greater than installed version
+    - name: Test command 'arkade'
       ansi_colle.mods.cmp_pkg:
         name: arkade
         version_arg: version

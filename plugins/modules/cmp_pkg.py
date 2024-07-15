@@ -158,7 +158,13 @@ def run_module():
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
     # Make sure desired_version followed regexp given
-    desired_version = re.search(regexp, module.params["version"]).group(0)
+    try:
+        desired_version = re.search(regexp, module.params["version"]).group(0)
+    except AttributeError:
+        desired_version: str = module.params["version"]
+        module.fail_json(
+            msg=f"Error verifying desired version: {desired_version}", **result
+        )
 
     if desired_version < LooseVersion(installed_version):
         result["msg"] = (
