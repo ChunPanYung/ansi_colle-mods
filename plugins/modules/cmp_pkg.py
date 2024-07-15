@@ -161,10 +161,8 @@ def run_module():
     try:
         desired_version = re.search(regexp, module.params["version"]).group(0)
     except AttributeError:
-        desired_version: str = module.params["version"]
-        module.fail_json(
-            msg=f"Error verifying desired version: {desired_version}", **result
-        )
+        # desired_version: str = module.params["version"]
+        module.fail_json(msg="Error verifying desired version", **result)
 
     if desired_version < LooseVersion(installed_version):
         result["msg"] = (
