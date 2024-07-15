@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2024-07-14                                                                    ▐│
+
+### Features                                                                               ▐│
+                                                                                           ▐│
+- Add alias to module parameter (version_arg to arg).                                      ▐│
+                                                                                           ▐│
+### Fix                                                                                    ▐│
+                                                                                           ▐│
+- Encode string in case command output is not utf-8.                                       ▐│
+                                                                                           ▐│
+### Security                                                                               ▐│
+                                                                                           ▐│
+- Ensure module only accepts one command line argument
+
 ## [1.1.1] - 2024-05-15
 
 ### Features
