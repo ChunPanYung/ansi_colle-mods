@@ -148,11 +148,24 @@ def run_module():
 
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
-    result["version_list"] = re.findall(regexp, stdout.encode("utf-8"))
+
+    try:
+        result["version_list"] = re.findall(regexp, stdout)
+    except TypeError:
+        module.fail_json(msg=f"Error getting version from command: {stdout}")
+
     # Get only selected version
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
-    desired_version = re.search(regexp, module.params["version"]).group(0)
+
+    # Make sure desired_version followed regexp given
+    desired_version = re.search(regexp, module.params["version"])
+    if not desired_version:
+        version = module.params["version"]
+        module.fail_json(msg=f"Error validate desired version: {version}")
+        module.exit_json(**result)
+    # Get the first item in list
+    desired_version = desired_version.group(0)
 
     if desired_version < LooseVersion(installed_version):
         result["msg"] = (

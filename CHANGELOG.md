@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2024-07-14
+
+### Bug Fixes
+
+- Use try except to catch error.
+
 ## [1.1.2] - 2024-07-14                                                                    ▐│
 
 ### Features                                                                               ▐│
@@ -14,7 +20,7 @@ All notable changes to this project will be documented in this file.
                                                                                            ▐│
 ### Security                                                                               ▐│
                                                                                            ▐│
-- Ensure module only accepts one command line argument
+- Ensure module only accepts one command line argument.
 
 ## [1.1.1] - 2024-05-15
 
