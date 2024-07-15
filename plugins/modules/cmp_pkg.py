@@ -148,7 +148,7 @@ def run_module():
 
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
-    result["version_list"] = re.findall(regexp, stdout.encode("utf-8"))
+    result["version_list"] = re.findall(regexp, stdout.decode("utf-8"))
     # Get only selected version
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
