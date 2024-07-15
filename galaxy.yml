@@ -19,4 +19,4 @@ tags:
 dependencies:
   "ansible.windows": "*"
 
-repository: https://github.com/ChunPanYung/ansi_shared
+repository: https://github.com/ChunPanYung/ansi_colle-mods
