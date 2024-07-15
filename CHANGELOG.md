@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
                                                                                            ▐│
 ### Security                                                                               ▐│
                                                                                            ▐│
-- Ensure module only accepts one command line argument
+- Ensure module only accepts one command line argument.
 
 ## [1.1.1] - 2024-05-15
 
