@@ -11,7 +11,7 @@ module: cmp_pkg
 short_description: Given a package version, it will compare to installed
 version.
 
-version_added: "1.0.1"
+version_added: "1.0.2"
 
 description: This is my longer description explaining my test module.
 
