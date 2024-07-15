@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2024-07-14
+
+### Bug Fixes
+
+- Use try except to catch error.
+
 ## [1.1.2] - 2024-07-14                                                                    ▐│
 
 ### Features                                                                               ▐│
@@ -11,7 +17,6 @@ All notable changes to this project will be documented in this file.
 ### Fix                                                                                    ▐│
                                                                                            ▐│
 - Encode string in case command output is not utf-8.                                       ▐│
-- Error handling.
                                                                                            ▐│
 ### Security                                                                               ▐│
                                                                                            ▐│
