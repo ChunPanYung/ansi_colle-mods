@@ -11,33 +11,25 @@ module: cmp_pkg
 short_description: Given a package version, it will compare to installed
 version.
 
-version_added: "1.0.2"
+version_added: "2.0.0"
 
 description: This is my longer description explaining my test module.
 
 options:
     name:
         description:
-            - command name to check version with.
-            - It will append '--version' at the end before running given command.
-        aliases: [ command_name ]
+            - command use to get version number.
+            - Ex: bash --version
+        aliases: [ get_command_version ]
         required: true
         type: list
     regexp:
         description: Regexp to use for extracting only the version number.
         default: '\d+\.\d+\.\d+'
         type: str
-    version:
+    desired_version:
         description: desired version for current installation.
-        aliases: [ desired_version ]
         required: true
-        type: str
-    arg:
-        description:
-            - argument for getting commnad version number, default is '--version'.
-            - example: if the command is 'bash', it will be 'bash --version'.
-        aliases: [ version_arg ]
-        default: '--version'
         type: str
     index:
         description:
@@ -109,10 +101,9 @@ from ansible.module_utils.compat.version import LooseVersion  # noqa: E402
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        name=dict(type="str", required=True, aliases=["command_name"]),
-        version=dict(type="str", required=True, aliases=["desired_version"]),
+        name=dict(type="str", required=True, aliases=["get_command_version"]),
+        desired_version=dict(type="str", required=True),
         regexp=dict(type="str", default=r"\d+\.\d+\.\d+"),
-        arg=dict(type="str", default=r"--version", aliases=["version_arg"]),
         index=dict(type="int", default=0),
     )
 
@@ -120,31 +111,21 @@ def run_module():
 
     module = AnsibleModule(argument_spec=module_args)
 
-    name = module.params["name"]
-
-    args: list = shlex.split(name)
-    # It will only take 1 command_name.
-    if len(args) != 1:
+    command_version: list = shlex.split(module.params["name"])
+    # command_version list should only contains 2 items, ex: bash --version
+    if len(command_version) != 2:
+        name: str = module.params["name"]
         result["rc"] = -2
-        result["msg"] = "'name' parameter should only be given 1 command."
+        result["msg"] = f"'name' parameter should only contains 2 items: {name}"
         module.fail_json(**result)
 
     # Early return if command does not exist
-    if not shutil.which(args[0]):
+    if not shutil.which(command_version[0]):
         result["rc"] = 2
         result["msg"] = "No desired version is installed."
         module.exit_json(**result)
 
-    # It will only take 1 command line argument.
-    version_arg: list = shlex.split(module.params["arg"])
-    if len(version_arg) != 1:
-        result["rc"] = -2
-        result["msg"] = "'arg' parameter should only be given 1 command."
-        module.fail_json(**result)
-
-    # Append '--version' to args and get command version
-    args.append(version_arg[0])
-    rc, stdout, stderr = module.run_command(args)
+    rc, stdout, stderr = module.run_command(command_version)
 
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
@@ -159,9 +140,9 @@ def run_module():
     installed_version = result["version_list"][index]
 
     # Make sure desired_version followed regexp given
-    desired_version = re.search(regexp, module.params["version"])
+    desired_version = re.search(regexp, module.params["desired_version"])
     if not desired_version:
-        version = module.params["version"]
+        version = module.params["desired_version"]
         module.fail_json(msg=f"Error validate desired version: {version}")
         module.exit_json(**result)
     # Get the first item in list
