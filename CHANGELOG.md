@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Fix                                                                                    ▐│
                                                                                            ▐│
 - Encode string in case command output is not utf-8.                                       ▐│
+- Error handling.
                                                                                            ▐│
 ### Security                                                                               ▐│
                                                                                            ▐│
