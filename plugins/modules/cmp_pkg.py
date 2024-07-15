@@ -152,7 +152,7 @@ def run_module():
     try:
         result["version_list"] = re.findall(regexp, stdout)
     except TypeError:
-        module.fail_json(msg="Error getting version from command.", **result)
+        module.fail_json(msg=f"Error getting version from command: {stdout}")
 
     # Get only selected version
     index: int = module.params["index"]
