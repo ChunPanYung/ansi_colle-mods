@@ -162,7 +162,7 @@ def run_module():
     desired_version = re.search(regexp, module.params["version"])
     if not desired_version:
         version = module.params["version"]
-        module.fail_json(msg=f"Error validate desired version: {version}", **result)
+        module.fail_json(msg="Error validate desired version.", **result)
     # Get the first item in list
     desired_version = desired_version.group(0)
 
