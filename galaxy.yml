@@ -1,7 +1,7 @@
 ---
 namespace: ansi_colle
 name: mods
-version: 1.0.0
+version: 1.1.2
 readme: README.md
 
 authors:
@@ -19,4 +19,4 @@ tags:
 dependencies:
   "ansible.windows": "*"
 
-repository: https://github.com/ChunPanYung/ansi_shared
+repository: https://github.com/ChunPanYung/ansi_colle-mods

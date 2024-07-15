@@ -11,7 +11,7 @@ module: cmp_pkg
 short_description: Given a package version, it will compare to installed
 version.
 
-version_added: "1.0.1"
+version_added: "1.0.2"
 
 description: This is my longer description explaining my test module.
 
@@ -34,8 +34,9 @@ options:
         type: str
     arg:
         description:
-            - argument that will be appended to command, default is '--version'.
+            - argument for getting commnad version number, default is '--version'.
             - example: if the command is 'bash', it will be 'bash --version'.
+        aliases: [ version_arg ]
         default: '--version'
         type: str
     index:
@@ -111,7 +112,7 @@ def run_module():
         name=dict(type="str", required=True, aliases=["command_name"]),
         version=dict(type="str", required=True, aliases=["desired_version"]),
         regexp=dict(type="str", default=r"\d+\.\d+\.\d+"),
-        arg=dict(type="str", default=r"--version"),
+        arg=dict(type="str", default=r"--version", aliases=["version_arg"]),
         index=dict(type="int", default=0),
     )
 
@@ -134,13 +135,20 @@ def run_module():
         result["msg"] = "No desired version is installed."
         module.exit_json(**result)
 
+    # It will only take 1 command line argument.
+    version_arg: list = shlex.split(module.params["arg"])
+    if len(version_arg) != 1:
+        result["rc"] = -2
+        result["msg"] = "'arg' parameter should only be given 1 command."
+        module.fail_json(**result)
+
     # Append '--version' to args and get command version
-    args.append(module.params["arg"])
+    args.append(version_arg[0])
     rc, stdout, stderr = module.run_command(args)
 
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
-    result["version_list"] = re.findall(regexp, stdout)
+    result["version_list"] = re.findall(regexp, stdout.decode("utf-8"))
     # Get only selected version
     index: int = module.params["index"]
     installed_version = result["version_list"][index]
