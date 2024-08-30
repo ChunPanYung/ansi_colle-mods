@@ -77,7 +77,7 @@ def run_module():
     module_args = dict(
         data=dict(type='list', required=True, elements='dict'),
         path=dict(type='str', required=True),
-        sheet_name=dict(type='str', default='Sheet1', aliases=['name'])
+        sheet_name=dict(type='str', default='0', aliases=['name'])
     )
 
     result = dict(
@@ -95,7 +95,9 @@ def run_module():
         module.fail_json(msg="This module only supports .xlsx file type.")
 
     # Get sheet_name from parameters
-    sheet_name: str = module.params['sheet_name']
+    sheet_name = module.params['sheet_name']
+    if sheet_name.isdigit():
+        sheet_name = int(sheet_name)
 
     # Read data from file
     from_excel: pd.DataFrame = pd.DataFrame()
