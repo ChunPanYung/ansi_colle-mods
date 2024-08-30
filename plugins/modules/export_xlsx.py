@@ -121,19 +121,19 @@ def run_module():
         module.fail_json(msg=f"Path given is a directory: {e}")
         module.exit_json(**result)
 
-    # if from_excel data is empty or
-    # excel data compare to ansible_data return non-empty (meaning there
-    # is difference in data), overwrite file.
     try:
+        # if from_excel data is empty or
+        # excel data compare to ansible_data return non-empty (meaning there
+        # is difference in data), overwrite file.
         if from_excel.empty or not from_excel.equals(ansible_data):
             result['changed'] = True
     except:
+        # Exception occurred when dataframe cannot be compared
         result['changed'] = True
 
-
+    # Write data to excel worksheet if data is different
     if result['changed']:
         ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
-
 
     result['rc'] = 0
     result['path'] = path
