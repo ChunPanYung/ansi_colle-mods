@@ -5,7 +5,57 @@
     - name: Ping test
       ansible.builtin.ping:
 
-    - name: Test exporting data
+    - name: Create directory
+      ansible.builtin.file:
+        path: /tmp/RAM/
+        state: directory
+        mode: '0755'
+
+    - name: Test fail case (directory)
+      ignore_errors: true
+      ansi_colle.mods.export_xlsx:
+        path: /tmp/RAM/
+        data:
+          - name: debian
+            version: 12
+            location: USA
+          - name: windows_server
+            version: 2010
+            location: Canada
+          - name: redhat
+            version: 9.7
+            location: UK
+
+    - name: Test fail case (wrong file extension)
+      ignore_errors: true
+      ansi_colle.mods.export_xlsx:
+        path: /tmp/RAM/file.txt
+        data:
+          - name: debian
+            version: 12
+            location: USA
+          - name: windows_server
+            version: 2010
+            location: Canada
+          - name: redhat
+            version: 9.7
+            location: UK
+
+    - name: Export data to file
+      ansi_colle.mods.export_xlsx:
+        path: /tmp/RAM/file.xlsx
+        data:
+          - name: debian
+            version: 12
+            location: USA
+          - name: windows_server
+            version: 2010
+            location: Canada
+          - name: redhat
+            version: 9.7
+            location: UK
+
+    - name: Export again to check idempotency
       ansi_colle.mods.export_xlsx:
         path: /tmp/RAM/file.xlsx
         data:
