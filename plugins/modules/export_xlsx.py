@@ -78,9 +78,10 @@ def run_module():
 
     module = AnsibleModule(argument_spec=module_args)
 
-    df: pd.DataFrame = pd.DataFrame({})
+    path: str = module.params['path']
     try:
         df = pd.DataFrame(module.params['data'])
+        df.to_excel(path, sheet_name='Default')
     except:
         result['rc'] = 1
         module.fail_json(msg='Unable to convert data into DataFrame type from pandas library', **result)
@@ -88,6 +89,8 @@ def run_module():
 
 
 
+
+    result['path'] = path
     module.exit_json(**result)  # Success return
 
 def main():
