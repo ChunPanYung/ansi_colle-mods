@@ -1,39 +1,26 @@
-[tool.poetry]
+[project]
 name = "ansi_colle.mods"
-version = "1.0.0"
-description = "Collection that stores custom Ansible Modules."
-
-license = "MIT"
-
+dynamic = ["version"]
+description = "Default template for PDM package"
 authors = [
-    "Chun Pan Yung"
+    {name = "Chun Pan Yung", email = "31672021+ChunPanYung@users.noreply.github.com"},
 ]
-
-repository = "https://github.com/chunpanyung/ansi_shared"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.dependencies]
-python = ">=3.11"
-pip = ">=23.1.2"
-ansible = ">=8.0.0"
-
-[tool.poetry.group.dev.dependencies]
-ansible-lint = { version = ">=6.17", markers = "platform_system != 'Windows'" }
-antsibull-changelog = ">=0.23"
-tomli-w = ">=1.0" # For ansible-inventory command
-yamllint = ">=1.30"
-pywinrm = ">=0.4"
-pytest-testinfra = ">=8.1"
-molecule = ">=4.0"
-molecule-plugins = ">=23.4"
-
-[tool.poetry.urls]
-changelog = "https://github.com/orhun/git-cliff.git"
-
-[tool.pytest.ini_options]
-testpaths = [
-    "tests"
+dependencies = [
+  "ansible",
+  "tomli-w",
+  "pandas",
+  "openpyxl"
 ]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+install = "ansible-playbook ansi_colle.mods.install"
+changelog = "git-cliff --prepend CHANGELOG.md --unreleased --tag"
