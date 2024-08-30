@@ -75,11 +75,10 @@ msg:
     sample: 'Desired version matches the installed version.'
 rc:
     description:
-        - return 2 if no desired version is installed.
-        - return 1 if desired version is greater than installed version.
         - return 0 if desired version is equal to installed version.
-        - return -1 if desired version is less than installed version.
-        - return -2 if it cannot be compared.
+        - return 0 also if no desired version is installed.
+        - return 2 if desired version is greater than installed version.
+        - return -2 if desired version is less than installed version.
     type: int
     returned: always
     sample: 0
@@ -107,7 +106,7 @@ def run_module():
         index=dict(type="int", default=0),
     )
 
-    result = dict(msg="", rc=None, failed=False)
+    result = dict(msg="", rc=0, failed=False, version_list=[])
 
     module = AnsibleModule(argument_spec=module_args)
 
@@ -115,17 +114,16 @@ def run_module():
     # command_version list should only contains 2 items, ex: bash --version
     if len(command_version) != 2:
         name: str = module.params["name"]
-        result["rc"] = -2
+        result["rc"] = -1
         result["msg"] = f"'name' parameter should only contains 2 items: {name}"
         module.fail_json(**result)
 
     # Early return if command does not exist
     if not shutil.which(command_version[0]):
-        result["rc"] = 2
         result["msg"] = "No desired version is installed."
         module.exit_json(**result)
 
-    rc, stdout, stderr = module.run_command(command_version)
+    _, stdout, _ = module.run_command(command_version)
 
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
@@ -140,13 +138,11 @@ def run_module():
     installed_version = result["version_list"][index]
 
     # Make sure desired_version followed regexp given
-    desired_version = re.search(regexp, module.params["desired_version"])
+    desired_version = re.match(regexp, module.params["desired_version"])
     if not desired_version:
         version = module.params["desired_version"]
         module.fail_json(msg=f"Error validate desired version: {version}")
         module.exit_json(**result)
-    # Get the first item in list
-    desired_version = desired_version.group(0)
 
     if desired_version < LooseVersion(installed_version):
         result["msg"] = (
@@ -154,19 +150,18 @@ def run_module():
                 desired_version, installed_version
             )
         )
-        result["rc"] = -1
+        result["rc"] = -2
     elif desired_version > LooseVersion(installed_version):
         result["msg"] = (
             "Desired version({}) is greater than installed version({}).".format(
                 desired_version, installed_version
             )
         )
-        result["rc"] = 1
+        result["rc"] = 2
     else:
         result["msg"] = "Desired version({}) matches the installed version({}).".format(
             desired_version, installed_version
         )
-        result["rc"] = 0
 
     module.exit_json(**result)
 
