@@ -82,8 +82,7 @@ def run_module():
 
     path: str = module.params['path']
     try:
-        # df = pd.DataFrame(module.params['data'])
-        df = pd.DataFrame([1, 2, 3])
+        df = pd.DataFrame(module.params['data'])
         df.to_excel(path, sheet_name='Default')
     except:
         result['rc'] = 1
