@@ -76,7 +76,7 @@ def run_module():
         rc=0
     )
 
-    module = AnsibleModule(argument_spec=module_args, support_check_mod=True)
+    module = AnsibleModule(argument_spec=module_args)
 
     df: pd.DataFrame = pd.DataFrame({})
     try:
