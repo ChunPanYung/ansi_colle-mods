@@ -109,7 +109,7 @@ def run_module():
         module.fail_json(msg=f"Path given is a directory: {e}")
         module.exit_json(**result)
     except ValueError as e:
-        module['result'] = 'Unable to import file data, overwrite it.'
+        result['msg'] = 'Unable to import file data, overwrite it.'
 
     # Convert Ansible Data to DataFrame
     ansible_data: pd.DataFrame = pd.DataFrame()
