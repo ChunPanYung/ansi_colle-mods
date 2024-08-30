@@ -36,21 +36,13 @@ All notable changes to this project will be documented in this file.
 
 ### Features                                                                               ▐│
 
-                                                                                           ▐│
-
 - Add alias to module parameter (version_arg to arg).                                      ▐│
-                                                                                           ▐│
 
 ### Fix                                                                                    ▐│
 
-                                                                                           ▐│
-
 - Encode string in case command output is not utf-8.                                       ▐│
-                                                                                           ▐│
 
 ### Security                                                                               ▐│
-
-                                                                                           ▐│
 
 - Ensure module only accepts one command line argument.
 
