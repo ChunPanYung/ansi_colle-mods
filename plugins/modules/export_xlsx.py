@@ -104,9 +104,11 @@ def run_module():
         from_excel = pd.read_excel(path, sheet_name=sheet_name)
     except FileNotFoundError as e:
         module.fail_json(msg=f"File not found: {e}")
+        result['rc'] = 1
         module.exit_json(**result)
     except IsADirectoryError as e:
         module.fail_json(msg=f"Path given is a directory: {e}")
+        result['rc'] = 1
         module.exit_json(**result)
     except ValueError as e:
         result['msg'] = 'Unable to import file data, overwrite it.'
@@ -124,7 +126,7 @@ def run_module():
     # if from_excel data is empty or
     # excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
-    if from_excel.empty or not from_excel.compare(ansible_data).empty:
+    if from_excel.empty: # or not from_excel.compare(ansible_data).empty:
         ansible_data.to_excel(path, sheet_name=sheet_name)
         result['changed'] = True
 
