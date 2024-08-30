@@ -21,6 +21,12 @@ options:
     description:
       - Path to the file it will be exported to.
     type: path
+  sheet_name:
+    description:
+      - Name of worksheet.
+    aliases: [ name ]
+    default: 'Sheet1'
+    type: str
 author:
   - Chun Pan Yung
 requirements:
@@ -70,7 +76,8 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         data=dict(type='list', required=True, elements='dict'),
-        path=dict(type='str', required=True)
+        path=dict(type='str', required=True),
+        sheet_name=dict(type='str', default='Sheet1', aliases=['name'])
     )
 
     result = dict(
@@ -87,10 +94,13 @@ def run_module():
     if file_extension is not '.xlsx':
         module.fail_json(msg="This module only supports .xlsx file type.")
 
+    # Get sheet_name from parameters
+    sheet_name: str = module.params['sheet_name']
+
     # Read data from file
     from_excel: pd.DataFrame = pd.DataFrame()
     try:
-        from_excel = pd.read_excel(path, sheet_name='Default')
+        from_excel = pd.read_excel(path, sheet_name=sheet_name)
     except FileNotFoundError as e:
         module.fail_json(msg=f"File not found: {e}")
     except IsADirectoryError as e:
@@ -110,7 +120,7 @@ def run_module():
     # if excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
     if not from_excel.compare(ansible_data).empty:
-        ansible_data.to_excel(path, sheet_name='Default')
+        ansible_data.to_excel(path, sheet_name=sheet_name)
         result['changed'] = True
 
 
