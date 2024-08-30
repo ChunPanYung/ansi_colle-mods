@@ -32,17 +32,17 @@ All notable changes to this project will be documented in this file.
 
 - Use try except to catch error.
 
-## [1.1.2] - 2024-07-14                                                                    ▐│
+## [1.1.2] - 2024-07-14
 
-### Features                                                                               ▐│
+### Features
 
-- Add alias to module parameter (version_arg to arg).                                      ▐│
+- Add alias to module parameter (version_arg to arg).
 
-### Fix                                                                                    ▐│
+### Fix
 
-- Encode string in case command output is not utf-8.                                       ▐│
+- Encode string in case command output is not utf-8.
 
-### Security                                                                               ▐│
+### Security
 
 - Ensure module only accepts one command line argument.
 
