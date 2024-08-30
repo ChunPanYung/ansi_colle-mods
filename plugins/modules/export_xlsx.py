@@ -126,9 +126,8 @@ def run_module():
     # excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
     try:
-        if from_excel.empty or not from_excel.compare(ansible_data).empty:
+        if from_excel.empty or not from_excel.equals(ansible_data):
             result['changed'] = True
-            result['msg'] = 'Changed made.'
     except:
         result['changed'] = True
 
