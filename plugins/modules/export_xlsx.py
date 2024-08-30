@@ -125,9 +125,16 @@ def run_module():
     # if from_excel data is empty or
     # excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
-    # if from_excel.empty or not from_excel.compare(ansible_data).empty:
-    #     ansible_data.to_excel(path, sheet_name=sheet_name)
-    #     result['changed'] = True
+    try:
+        if from_excel.empty or not from_excel.compare(ansible_data).empty:
+            result['changed'] = True
+            result['msg'] = 'Changed made.'
+    except:
+        result['changed'] = True
+
+
+    if result['changed']:
+        ansible_data.to_excel(path, sheet_name=sheet_name)
 
 
     result['rc'] = 0
