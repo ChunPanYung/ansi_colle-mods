@@ -104,8 +104,6 @@ def run_module():
         module.fail_json(msg='Unable to convert data into DataFrame type', **result)
         module.exit_json(**result)
 
-
-
     from_excel: pd.DataFrame = pd.DataFrame()
     # Get sheet_name from parameters
     sheet_name: str = module.params['sheet_name']
@@ -127,9 +125,9 @@ def run_module():
     # if from_excel data is empty or
     # excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
-    if from_excel.empty or not from_excel.compare(ansible_data).empty:
-        ansible_data.to_excel(path, sheet_name=sheet_name)
-        result['changed'] = True
+    # if from_excel.empty or not from_excel.compare(ansible_data).empty:
+    #     ansible_data.to_excel(path, sheet_name=sheet_name)
+    #     result['changed'] = True
 
 
     result['rc'] = 0
