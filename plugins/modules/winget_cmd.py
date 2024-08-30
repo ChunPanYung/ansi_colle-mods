@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 DOCUMENTATION = r'''
 ---
-module: wiinget_cmd
+module: winget_cmd
 short_description: Execute winget command to either install or remova package.
 description:
   - Assume ansible_user has administrator privilege.
@@ -10,7 +10,7 @@ description:
 options:
   state:
     description:
-      - Whether to install (V(present)), oreremove (V(absent)) a package.
+      - Whether to install (V(present)), or remove (V(absent)) a package.
       - Default is V(present).
     choices: ['absent', 'present']
     type: str
