@@ -132,7 +132,7 @@ def run_module():
 
 
     if result['changed']:
-        ansible_data.to_excel(path, sheet_name=sheet_name)
+        ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
 
 
     result['rc'] = 0
