@@ -73,15 +73,17 @@ def run_module():
     result = dict(
         changed=False,
         path='',
-        rc=0
+        rc=0,
+        stdout='',
+        stderr=''
     )
 
     module = AnsibleModule(argument_spec=module_args)
 
-    result['stdout'] = (module.params['data'])
     path: str = module.params['path']
     try:
-        df = pd.DataFrame(module.params['data'])
+        # df = pd.DataFrame(module.params['data'])
+        df = pd.DataFrame([1, 2, 3])
         df.to_excel(path, sheet_name='Default')
     except:
         result['rc'] = 1
