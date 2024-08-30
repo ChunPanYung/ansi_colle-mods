@@ -1,0 +1,21 @@
+---
+- name: Test plugins export_xlsx
+  hosts: localhost
+  tasks:
+    - name: Ping test
+      ansible.builtin.ping:
+
+    - name: Test exporting data
+      ansi_colle.mods.export_xlsx:
+        name: arkade
+        path: /tmp/RAM/file.xlsx
+        data:
+          - name: debian
+            version: 12
+            location: USA
+          - name: windows_server
+            version: 2010
+            location: Canada
+          - name: redhat
+            version: 9.7
+            location: UK
