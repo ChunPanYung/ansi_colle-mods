@@ -78,6 +78,7 @@ def run_module():
 
     module = AnsibleModule(argument_spec=module_args)
 
+    print(module.params['data'])
     path: str = module.params['path']
     try:
         df = pd.DataFrame(module.params['data'])
