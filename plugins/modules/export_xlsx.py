@@ -91,7 +91,7 @@ def run_module():
     # Early return if file does not ends with .xlsx
     path: str = module.params['path']
     _, file_extension = splitext(path)
-    if file_extension is not '.xlsx':
+    if file_extension == '.xlsx':
         module.fail_json(msg="This module only supports .xlsx file type.")
 
     # Get sheet_name from parameters
