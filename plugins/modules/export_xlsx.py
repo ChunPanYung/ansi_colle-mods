@@ -116,8 +116,7 @@ def run_module():
         module.fail_json(msg=f"Cannot read file content: {e}")
         module.exit_json(**result)
     except FileNotFoundError as e:
-        module.fail_json(msg=f"File not found: {e}")
-        module.exit_json(**result)
+        result['msg'] = 'Created new file.'
     except IsADirectoryError as e:
         module.fail_json(msg=f"Path given is a directory: {e}")
         module.exit_json(**result)
