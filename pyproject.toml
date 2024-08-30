@@ -8,7 +8,8 @@ authors = [
 dependencies = [
   "ansible",
   "tomli-w",
-  "pandas"
+  "pandas",
+  "openpyxl"
 ]
 requires-python = ">=3.12"
 readme = "README.md"
