@@ -83,7 +83,7 @@ def run_module():
     result = dict(
         changed=False,
         path='',
-        rc=0,
+        rc=1,
         msg=''
     )
 
@@ -94,43 +94,45 @@ def run_module():
     _, file_extension = splitext(path)
     if file_extension != '.xlsx':
         module.fail_json(msg="This module only supports .xlsx file type.")
-
-    # Get sheet_name from parameters
-    sheet_name: str = module.params['sheet_name']
-
-    # Read data from file
-    from_excel: pd.DataFrame = pd.DataFrame()
-    try:
-        from_excel = pd.read_excel(path, sheet_name=sheet_name)
-    except FileNotFoundError as e:
-        module.fail_json(msg=f"File not found: {e}")
-        result['rc'] = 1
         module.exit_json(**result)
-    except IsADirectoryError as e:
-        module.fail_json(msg=f"Path given is a directory: {e}")
-        result['rc'] = 1
-        module.exit_json(**result)
-    except ValueError as e:
-        result['msg'] = 'Unable to import file data, overwrite it.'
 
     # Convert Ansible Data to DataFrame
     ansible_data: pd.DataFrame = pd.DataFrame()
     try:
         ansible_data = pd.DataFrame(module.params['data'])
-        ansible_data.to_excel(path, sheet_name=sheet_name)
     except:
-        result['rc'] = 1
         module.fail_json(msg='Unable to convert data into DataFrame type', **result)
+        module.exit_json(**result)
+
+
+
+    from_excel: pd.DataFrame = pd.DataFrame()
+    # Get sheet_name from parameters
+    sheet_name: str = module.params['sheet_name']
+    # import .xlsx data if sheet_name exist
+    try:
+        file: pd.ExcelFile = pd.ExcelFile(path)
+        if sheet_name in file.sheet_names:
+            from_excel = pd.read_excel(path, sheet_name=sheet_name)
+    except ValueError as e:
+        module.fail_json(msg=f"Cannot read file content: {e}")
+        module.exit_json(**result)
+    except FileNotFoundError as e:
+        module.fail_json(msg=f"File not found: {e}")
+        module.exit_json(**result)
+    except IsADirectoryError as e:
+        module.fail_json(msg=f"Path given is a directory: {e}")
         module.exit_json(**result)
 
     # if from_excel data is empty or
     # excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
-    if from_excel.empty: # or not from_excel.compare(ansible_data).empty:
+    if from_excel.empty or not from_excel.compare(ansible_data).empty:
         ansible_data.to_excel(path, sheet_name=sheet_name)
         result['changed'] = True
 
 
+    result['rc'] = 0
     result['path'] = path
     module.exit_json(**result)  # Success return
 
