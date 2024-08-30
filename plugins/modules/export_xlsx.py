@@ -103,10 +103,13 @@ def run_module():
         from_excel = pd.read_excel(path, sheet_name=sheet_name)
     except FileNotFoundError as e:
         module.fail_json(msg=f"File not found: {e}")
+        module.exit_json(**result)
     except IsADirectoryError as e:
         module.fail_json(msg=f"Path given is a directory: {e}")
+        module.exit_json(**result)
     except ValueError as e:
         module.fail_json(msg=f"Path file type cannot be imported: {e}")
+        module.exit_json(**result)
 
     # Convert Ansible Data to DataFrame
     ansible_data: pd.DataFrame = pd.DataFrame()
@@ -116,12 +119,13 @@ def run_module():
     except:
         result['rc'] = 1
         module.fail_json(msg='Unable to convert data into DataFrame type', **result)
+        module.exit_json(**result)
 
     # if excel data compare to ansible_data return non-empty (meaning there
     # is difference in data), overwrite file.
-    # if not from_excel.compare(ansible_data).empty:
-    #     ansible_data.to_excel(path, sheet_name=sheet_name)
-    #     result['changed'] = True
+    if not from_excel.compare(ansible_data).empty:
+        ansible_data.to_excel(path, sheet_name=sheet_name)
+        result['changed'] = True
 
 
     result['path'] = path
