@@ -5,12 +5,6 @@
     - name: Ping test
       ansible.builtin.ping:
 
-    - name: Create directory
-      ansible.builtin.file:
-        path: /tmp/RAM/
-        state: directory
-        mode: '0755'
-
     - name: Test fail case (directory)
       ignore_errors: true
       ansi_colle.mods.export_xlsx:
