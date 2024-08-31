@@ -17,7 +17,6 @@ tags:
   - linux
   - tools
 
-dependencies:
-  "ansible.windows": "*"
+dependencies: {}
 
 repository: https://github.com/ChunPanYung/ansi_colle-mods
