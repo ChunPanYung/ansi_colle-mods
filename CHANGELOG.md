@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2024-08-31
+
+### Documentation
+
+- Fix grammar.
+
+### Features
+
+- [**breaking**] Change rc, use match instead of search.
+
+### Refactor
+
+- Remove version_args parameter.
+
+### Styling
+
+- Configure markdownlint.
+- Correct collection name.
+- Clean up linting error.
+
 ## [1.2.0] - 2024-08-30
 
 ### Bug Fixes
