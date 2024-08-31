@@ -77,6 +77,8 @@ rc:
     description:
         - return 0 if desired version is equal to installed version.
         - return 0 also if no desired version is installed.
+        - return -1 if desired version cannot be validated.
+        - return 1 if it cannot get version from command.
         - return 2 if desired version is greater than installed version.
         - return -2 if desired version is less than installed version.
     type: int
@@ -128,19 +130,23 @@ def run_module():
     # Return list of version after re.findall() function
     regexp: str = module.params["regexp"]
 
+    version_list: list = []
     try:
-        result["version_list"] = re.findall(regexp, stdout)
+        version_list = re.findall(regexp, stdout)
+        result["version_list"] = version_list
     except TypeError:
+        result["rc"] = 1
         module.fail_json(msg=f"Error getting version from command: {stdout}")
 
     # Get only selected version
     index: int = module.params["index"]
-    installed_version = result["version_list"][index]
+    installed_version = version_list[index]
 
     # Make sure desired_version followed regexp given
     desired_version = re.match(regexp, module.params["desired_version"])
     if not desired_version:
         version = module.params["desired_version"]
+        result["rc"] = -1
         module.fail_json(msg=f"Error validate desired version: {version}")
         module.exit_json(**result)
 
