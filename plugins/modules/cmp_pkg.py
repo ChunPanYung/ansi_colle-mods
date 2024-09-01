@@ -19,6 +19,7 @@ options:
         aliases: [ get_command_version ]
         required: true
         type: list
+        elements: str
     regexp:
         description: Regexp to use for extracting only the version number.
         default: '\d+\.\d+\.\d+'

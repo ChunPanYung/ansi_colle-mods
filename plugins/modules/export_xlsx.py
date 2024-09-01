@@ -15,7 +15,8 @@ options:
   data:
     description:
       - list of dictionary where key will be the first row of excel sheet, and data will be the value.
-    type: list(dict)
+    type: list
+    elements: dict
     required: yes
   path:
     description:
