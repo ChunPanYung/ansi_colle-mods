@@ -44,22 +44,21 @@ jobs:
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
       - name: Create directory
-        run: mkdir $SITE_DIR
+        run: mkdir $GITHUB_WORKSPACE/_site
       - name: Build a docsite with antsibull-docs
-        run: antsibull-docs sphinx-init --use-current --dest-dir $SITE_DIR ansi_colle.mods
+        run: antsibull-docs sphinx-init --use-current --dest-dir $GITHUB_WORKSPACE/_site ansi_colle.mods
       - name: Install additional pip requirement
-        working-directory: $SITE_DIR
-        run: pip install -r requirements.txt
+        run: pip install -r $GITHUB_WORKSPACE/_site/requirements.txt
 
       # Create and upload docsite
       - name: Build docsite
-        run: $SITE_DIR/build.sh
+        run: $GITHUB_WORKSPACE/_site/build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: $SITE_DIR/build/html/
+          path: $GITHUB_WORKSPACE/_site/build/html/
 
   # Deployment job
   deploy:
