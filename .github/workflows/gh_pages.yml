@@ -26,7 +26,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      $SITE_DIR: $GITHUB_WORKSPACE/_site
+      SITE_DIR: $GITHUB_WORKSPACE/_site
     steps:
       - name: Checkout
         uses: actions/checkout@v4
