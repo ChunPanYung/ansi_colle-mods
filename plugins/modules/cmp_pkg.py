@@ -42,7 +42,6 @@ attributes:
     diff_mode:
         support: none
     platform:
-        support: full
         platforms: posix
 
 author:
