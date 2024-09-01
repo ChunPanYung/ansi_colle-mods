@@ -1,27 +1,25 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
 module: cmp_pkg
-
 short_description: Given a package version, it will compare to installed version.
-
 version_added: "2.0.0"
-
-description: This is my longer description explaining my test module.
+description:
+  - This is my longer description explaining my test module.
 
 options:
     name:
         description:
             - command use to get version number.
-            - Ex: bash --version
+            - Example, bash --version
         aliases: [ get_command_version ]
         required: true
         type: list
+        elements: str
     regexp:
         description: Regexp to use for extracting only the version number.
         default: '\d+\.\d+\.\d+'
@@ -38,9 +36,6 @@ options:
             - First occurence is 0, second is 1, and third is 2 etc.
         default: 0
         type: int
-
-extends_documentation_fragment:
-    - ansi_colle.mods.cmp_pkg
 
 author:
     - Chun Pan Yung
@@ -85,7 +80,7 @@ rc:
     sample: 0
 version_list:
     description: List of version numbers returned after running cmd with regexp.
-    type: list(str)
+    type: list
     returned: always
     sample: ['2.14.1', '3.11.9', '3.1.12']
 """

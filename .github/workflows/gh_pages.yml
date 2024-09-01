@@ -25,43 +25,38 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    env:
-      SITE_DIR: format('{0}/_site', 'GITHUB_WORKSPACE')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      # Setup pythnon and ansible dependencies
       - name: Ensure python version
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
-      - name: Install antsibull via pip
+      - name: Install ansible dependencies
         run: ansible-galaxy install -r requirements.yml
-
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
-      - name: Create directory
-        run: mkdir $GITHUB_WORKSPACE/_site
       - name: Build a docsite with antsibull-docs
-        run: antsibull-docs sphinx-init --use-current --dest-dir $GITHUB_WORKSPACE/_site ansi_colle.mods
+        run: antsibull-docs sphinx-init --use-current --dest-dir ${{ runner.temp }} ansi_colle.mods
       - name: Install additional pip requirement
-        run: pip install -r $GITHUB_WORKSPACE/_site/requirements.txt
-
+        run: pip install -r ${{ runner.temp }}/requirements.txt
       # Create and upload docsite
       - name: Build docsite
-        run: $GITHUB_WORKSPACE/_site/build.sh
+        run: ${{ runner.temp }}/build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: $GITHUB_WORKSPACE/_site/build/html/
+          path: ${{ runner.temp }}/build/html/
 
   # Deployment job
   deploy:
+    if: github.ref == 'ref/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
