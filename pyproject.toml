@@ -15,6 +15,14 @@ requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
 
+[tool.pdm.dev-dependencies]
+lint = [
+  "ansible-lint"
+]
+doc = [
+  "antsibull-doc"
+]
+
 [tool.pdm.version]
 source = "scm"
 
