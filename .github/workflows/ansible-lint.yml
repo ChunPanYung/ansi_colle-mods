@@ -12,9 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install requirements.yml
-        run: ansible-galaxy install -r requirements.yml
-
       - name: Install dependencies
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
 
