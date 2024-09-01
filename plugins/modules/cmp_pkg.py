@@ -39,9 +39,6 @@ options:
         default: 0
         type: int
 
-extends_documentation_fragment:
-    - ansi_colle.mods.cmp_pkg
-
 author:
     - Chun Pan Yung
 """
