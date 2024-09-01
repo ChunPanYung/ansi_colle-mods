@@ -6,12 +6,20 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
-- No dependencies for now.
+- Ansible requirements.yml file.
+- Add pyproject.toml lint and doc package.
+- Update pre-commit config file.
+- Fix module documentation.
 
 ### Features
 
 - Validate ansible code before merging.
 - Github action to create static page.
+
+### Fix
+
+- Correct cmp_pkg test playbook.
+- Ansible-lint error.
 
 ### Refactor
 
