@@ -1,0 +1,5 @@
+---
+# Required by GitHub Action to install additional collection and roles.
+collections:
+  - name: community.general
+    version: "*"
