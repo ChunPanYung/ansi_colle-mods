@@ -20,8 +20,12 @@ lint = [
   "ansible-lint"
 ]
 doc = [
+  "ansible-core",
   "antsibull-docs"
 ]
+
+[tool.pdm.resolution.overrides]
+will-not-work-on-windows-try-from-wsl-instead = "0.1.0"  # ignore ansible-lint install error
 
 [tool.pdm.version]
 source = "scm"
