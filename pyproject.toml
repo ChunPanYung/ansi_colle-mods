@@ -20,7 +20,7 @@ lint = [
   "ansible-lint"
 ]
 doc = [
-  "antsibull-doc"
+  "antsibull-docs"
 ]
 
 [tool.pdm.version]
