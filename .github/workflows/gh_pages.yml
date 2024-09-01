@@ -41,7 +41,7 @@ jobs:
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
       - name: Build a docsite with antsibull-docs
-        run: antsibull-docs sphinx-init --use-current --dest-dir ${{ runner.temp }} ansi_colle.mods
+        run: antsibull-docs sphinx-init --use-current --squash-hierarchy --dest-dir ${{ runner.temp }} ansi_colle.mods
       - name: Install additional pip requirement
         run: pip install -r ${{ runner.temp }}/requirements.txt
       # Create and upload docsite
