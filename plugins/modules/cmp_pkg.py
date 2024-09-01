@@ -36,6 +36,14 @@ options:
             - First occurence is 0, second is 1, and third is 2 etc.
         default: 0
         type: int
+attributes:
+    check_mode:
+        supports: full
+    diff_mode:
+        support: none
+    platform:
+        support: full
+        platforms: posix
 
 author:
     - Chun Pan Yung

@@ -29,6 +29,14 @@ options:
     aliases: [ name ]
     default: 'Sheet1'
     type: str
+attributes:
+  check_mode:
+    supports: full
+  diff_mode:
+    support: none
+  platform:
+    platforms: posix
+
 author:
   - Chun Pan Yung
 requirements:
