@@ -23,12 +23,12 @@ concurrency:
 
 jobs:
   # Build job
-  setup:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      # Setup pythnon and ansible dependencies
       - name: Ensure python version
         uses: actions/setup-python@v5
         with:
@@ -37,11 +37,6 @@ jobs:
         run: pip install ansible-core antsibull-docs
       - name: Install ansible dependencies
         run: ansible-galaxy install -r requirements.yml
-
-  build:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
@@ -52,6 +47,12 @@ jobs:
       # Create and upload docsite
       - name: Build docsite
         run: ${{ runner.temp }}/build.sh
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/build/html/
 
   # Deployment job
   deploy:
@@ -61,13 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ runner.temp }}/build/html/
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
