@@ -58,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: $GITHUB_WORKSPACE/_site/build/html/
+          path: $GITHUB_WORKSPACE/build/html/
 
   # Deployment job
   deploy:
