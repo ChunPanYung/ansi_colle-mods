@@ -18,7 +18,7 @@ options:
     name:
         description:
             - command use to get version number.
-            - Ex: bash --version
+            - Example, bash --version
         aliases: [ get_command_version ]
         required: true
         type: list
