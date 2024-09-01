@@ -79,7 +79,7 @@ rc:
     sample: 0
 version_list:
     description: List of version numbers returned after running cmd with regexp.
-    type: list(str)
+    type: list
     returned: always
     sample: ['2.14.1', '3.11.9', '3.1.12']
 """
