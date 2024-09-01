@@ -43,12 +43,10 @@ jobs:
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
-      - name: Create directory
-        run: mkdir $GITHUB_WORKSPACE/_site
       - name: Build a docsite with antsibull-docs
-        run: antsibull-docs sphinx-init --use-current --dest-dir $GITHUB_WORKSPACE/_site ansi_colle.mods
+        run: antsibull-docs sphinx-init --use-current --dest-dir $runner.temp ansi_colle.mods
       - name: Install additional pip requirement
-        run: pip install -r $GITHUB_WORKSPACE/_site/requirements.txt
+        run: pip install -r $runner.temp/requirements.txt
 
       # Create and upload docsite
       - name: Build docsite
@@ -58,7 +56,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: $GITHUB_WORKSPACE/build/html/
+          path: $runner.temp/build/html/
 
   # Deployment job
   deploy:
