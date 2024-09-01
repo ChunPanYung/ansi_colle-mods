@@ -36,3 +36,4 @@ distribution = false
 [tool.pdm.scripts]
 install = "ansible-playbook ansi_colle.mods.install"
 changelog = "git-cliff --prepend CHANGELOG.md --unreleased --tag"
+docs = "antsibull-docs sphinx-init --use-current --squash-hierarchy ansi_colle.mods --dest-dir"
