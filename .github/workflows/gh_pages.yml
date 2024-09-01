@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -37,6 +37,9 @@ jobs:
           python-version: "3.12"
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
+      - name: Install antsibull via pip
+        run: ansible-galaxy install -r requirements.yml
+
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
@@ -47,6 +50,7 @@ jobs:
       - name: Install additional pip requirement
         working-directory: $SITE_DIR
         run: pip install -r requirements.txt
+
       # Create and upload docsite
       - name: Build docsite
         run: $SITE_DIR/build.sh
