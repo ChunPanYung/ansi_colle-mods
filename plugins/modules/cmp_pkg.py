@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
 module: cmp_pkg
-
 short_description: Given a package version, it will compare to installed version.
-
 version_added: "2.0.0"
-
-description: This is my longer description explaining my test module.
+description:
+  - This is my longer description explaining my test module.
 
 options:
     name:
