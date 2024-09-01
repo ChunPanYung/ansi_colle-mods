@@ -23,10 +23,8 @@ concurrency:
 
 jobs:
   # Build job
-  build:
+  setup:
     runs-on: ubuntu-latest
-    env:
-      SITE_DIR: format('{0}/_site', 'GITHUB_WORKSPACE')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,9 +35,12 @@ jobs:
           python-version: "3.12"
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
-      - name: Install antsibull via pip
+      - name: Install ansible dependencies
         run: ansible-galaxy install -r requirements.yml
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
@@ -47,16 +48,9 @@ jobs:
         run: antsibull-docs sphinx-init --use-current --dest-dir ${{ runner.temp }} ansi_colle.mods
       - name: Install additional pip requirement
         run: pip install -r ${{ runner.temp }}/requirements.txt
-
       # Create and upload docsite
       - name: Build docsite
-        run: $GITHUB_WORKSPACE/_site/build.sh
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ runner.temp }}/build/html/
+        run: ${{ runner.temp }}/build.sh
 
   # Deployment job
   deploy:
@@ -66,6 +60,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/build/html/
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
