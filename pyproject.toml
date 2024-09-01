@@ -15,6 +15,18 @@ requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "MIT"}
 
+[tool.pdm.dev-dependencies]
+lint = [
+  "ansible-lint"
+]
+doc = [
+  "ansible-core",
+  "antsibull-docs"
+]
+
+[tool.pdm.resolution.overrides]
+will-not-work-on-windows-try-from-wsl-instead = "0.1.0"  # ignore ansible-lint install error
+
 [tool.pdm.version]
 source = "scm"
 

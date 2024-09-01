@@ -7,37 +7,26 @@
 
     - name: Test command 'arkade'
       ansi_colle.mods.cmp_pkg:
-        name: arkade
-        version_arg: version
+        name: arkade version
         desired_version: '3.0.0'
 
     - name: Test if desired version equal to installed version
       ansi_colle.mods.cmp_pkg:
-        name: ansible
-        version: '2.16.2'
+        name: ansible --version
+        desired_version: '2.16.2'
 
     - name: Test if desired version is less than installed version
       ansi_colle.mods.cmp_pkg:
-        name: ansible
-        version: '2.14.1'
+        name: ansible --version
+        desired_version: '2.14.1'
 
     - name: Test if desired version is less than installed version
       ansi_colle.mods.cmp_pkg:
-        name: go
-        version: '2.14.5'
-        arg: 'version'
+        name: go version
+        desired_version: '2.14.5'
 
-
-    - name: Test both fail case
-      block:
-        - name: Test if command name is wrong
-          ansi_colle.mods.cmp_pkg:
-            name: pudding
-            version: '2.14.1'
-
-      rescue:
-        - name: Test if name parameter is more than 2
-          failed_when: false
-          ansi_colle.mods.cmp_pkg:
-            name: ansi ble
-            version: "2.14.1"
+    - name: Test if command name is wrong
+      ansi_colle.mods.cmp_pkg:
+        name: pudding --version
+        desired_version: '2.14.1'
+      register: ignore_errors_register

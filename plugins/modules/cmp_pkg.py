@@ -8,8 +8,7 @@ DOCUMENTATION = r"""
 ---
 module: cmp_pkg
 
-short_description: Given a package version, it will compare to installed
-version.
+short_description: Given a package version, it will compare to installed version.
 
 version_added: "2.0.0"
 
