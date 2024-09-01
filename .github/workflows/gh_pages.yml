@@ -34,7 +34,7 @@ jobs:
       - name: Ensure python version
         uses: actions/setup-python@v5
         with:
-          python_version: "3.12"
+          python-version: "3.12"
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
       # Setup and configure before building docsite
