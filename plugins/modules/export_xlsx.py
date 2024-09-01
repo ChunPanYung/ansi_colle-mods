@@ -9,7 +9,7 @@ module: ans_colle.mods.export_xlsx
 version_added: "1.1.4"
 short_description: Export list of dictionary from Ansible to Microsoft Excel format.
 description:
-  - It will compile data from a list of dictionary toi Microsoft .xlsx file format using pandas.
+  - It will compile data from a list of dictionary to Microsoft .xlsx file format using pandas.
   - It will read file from path, and compare it to data wanting to be exported.
 options:
   data:
@@ -22,6 +22,7 @@ options:
     description:
       - Path to the file it will be exported to.
     type: path
+    required: yes
   sheet_name:
     description:
       - Name of worksheet.
