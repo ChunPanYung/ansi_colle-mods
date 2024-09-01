@@ -9,6 +9,7 @@
         name: "{{ item }}"
       loop:
         - community.general
+        - ansible.windows
 
     - name: Install this collection
       vars:
