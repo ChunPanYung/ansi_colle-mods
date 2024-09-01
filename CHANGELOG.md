@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2024-09-01
+
+### Documentation
+
+- No dependencies for now.
+
+### Features
+
+- Validate ansible code before merging.
+- Github action to create static page.
+
+### Refactor
+
+- Reduce code complexity.
+
 ## [1.3.0] - 2024-08-31
 
 ### Documentation
