@@ -89,7 +89,7 @@ def run_module():
         msg=''
     )
 
-    module = AnsibleModule(argument_spec=module_args)
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
     # Early return if file does not ends with .xlsx
     path: str = module.params['path']
@@ -128,7 +128,7 @@ def run_module():
         result['changed'] = True
 
     # Write data to excel worksheet if data is different
-    if result['changed']:
+    if result['changed'] and not module.check_mode:
         ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
 
     result['rc'] = 0

@@ -104,7 +104,7 @@ def run_module():
 
     result = dict(msg="", rc=0, failed=False, version_list=[])
 
-    module = AnsibleModule(argument_spec=module_args)
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
     command_version: list = shlex.split(module.params["name"])
     # command_version list should only contains 2 items, ex: bash --version
