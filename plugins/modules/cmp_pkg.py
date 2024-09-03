@@ -49,21 +49,18 @@ author:
 """
 
 EXAMPLES = r"""
-# Pass
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
-    command_name: ansible
+    name: ansible --version
     desired_version: '2.14.1'
 
 - name: Get the second version number after executing command with regexp.
   ansi_colle.mods.cmp_pkg:
-    name: ansible
+    get_command_version: ansible -v
     index: 1
-    arg: '--version'
     desired_version: 3.12.1
 
-# fail the module
-- name: Test failure of the module
+- name: Return code 0 if command version cannot be found
   ansi_colle.mods.cmp_pkg:
     name: not_existing_commands
 """
