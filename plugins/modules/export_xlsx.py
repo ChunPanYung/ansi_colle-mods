@@ -141,13 +141,12 @@ def run_module():
         ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
 
     # Diff mode
-    diff: dict = {
+    result['diff'] = {
         'before': from_excel.to_string(),
         'after': ansible_data.to_string(),
         'before_header': f"{path} (content)",
         'after_header': f"{path} (content)"
     }
-    result['diff'] = diff
 
     result['rc'] = 0
     result['path'] = path
