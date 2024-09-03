@@ -33,11 +33,11 @@ extends_documentation_fragment:
     - action_common_attributes
 attributes:
   check_mode:
-    supports: full
+    support: full
   diff_mode:
     support: full
   platform:
-    platforms: posix
+    support: posix
 
 author:
   - Chun Pan Yung
