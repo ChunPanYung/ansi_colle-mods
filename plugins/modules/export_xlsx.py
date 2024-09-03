@@ -30,7 +30,7 @@ options:
     default: 'Sheet1'
     type: str
 extends_documentation_fragment:
-    - action_common_attributes
+    - ansi_colle.mods.attributes
 attributes:
   check_mode:
     support: full
