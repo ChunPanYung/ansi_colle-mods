@@ -29,13 +29,15 @@ options:
     aliases: [ name ]
     default: 'Sheet1'
     type: str
+extends_documentation_fragment:
+    - ansi_colle.mods.attributes
 attributes:
   check_mode:
-    supports: full
+    support: full
   diff_mode:
-    support: none
+    support: full
   platform:
-    platforms: posix
+    support: posix
 
 author:
   - Chun Pan Yung

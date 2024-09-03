@@ -36,13 +36,15 @@ options:
             - First occurence is 0, second is 1, and third is 2 etc.
         default: 0
         type: int
+extends_documentation_fragment:
+    - ansi_colle.mods.attributes
 attributes:
     check_mode:
-        supports: full
+        support: full
     diff_mode:
         support: none
     platform:
-        platforms: posix
+        support: posix
 
 author:
     - Chun Pan Yung

@@ -36,7 +36,7 @@ jobs:
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
       - name: Install ansible dependencies
-        run: ansible-galaxy install -r requirements.yml
+        run: ansible-playbook ${{ GITHUB_WORKSPACE }}/playbooks/install.yml --extra-vars git_version=${{ github_ref_name }}
       # Setup and configure before building docsite
       - name: Install this ansible collection
         run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
