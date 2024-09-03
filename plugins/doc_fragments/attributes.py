@@ -7,7 +7,6 @@ class ModuleDocFragment(object):
 
     # Standard documentation fragment
     DOCUMENTATION = r'''
-options: {}
 attributes:
     check_mode:
       description: Can run in C(check_mode) and return changed status prediction without modifying target.
