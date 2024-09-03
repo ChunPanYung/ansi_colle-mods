@@ -36,27 +36,31 @@ options:
             - First occurence is 0, second is 1, and third is 2 etc.
         default: 0
         type: int
+attributes:
+    check_mode:
+        supports: full
+    diff_mode:
+        support: none
+    platform:
+        platforms: posix
 
 author:
     - Chun Pan Yung
 """
 
 EXAMPLES = r"""
-# Pass
 - name: Check package verison
   ansi_colle.mods.cmp_pkg:
-    command_name: ansible
+    name: ansible --version
     desired_version: '2.14.1'
 
 - name: Get the second version number after executing command with regexp.
   ansi_colle.mods.cmp_pkg:
-    name: ansible
+    get_command_version: ansible -v
     index: 1
-    arg: '--version'
     desired_version: 3.12.1
 
-# fail the module
-- name: Test failure of the module
+- name: Return code 0 if command version cannot be found
   ansi_colle.mods.cmp_pkg:
     name: not_existing_commands
 """
@@ -104,7 +108,7 @@ def run_module():
 
     result = dict(msg="", rc=0, failed=False, version_list=[])
 
-    module = AnsibleModule(argument_spec=module_args)
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
     command_version: list = shlex.split(module.params["name"])
     # command_version list should only contains 2 items, ex: bash --version

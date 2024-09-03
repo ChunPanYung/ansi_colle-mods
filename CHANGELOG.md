@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.2] - 2024-09-03
+
+### Documentation
+
+- Add attributes to module.
+- Create script cmd for pdm.
+- Update documentation for ansi_colle.mods.cmp_pkg module.
+- Update readme file and remove repeated dependencies.
+- [**breaking**] Remove unused dependencies and build.
+
+### Features
+
+- Support check mode.
+- Support diff mode.
+
+### Refactor
+
+- Reduce code complexity.
+
 ## [1.3.1] - 2024-09-01
 
 ### Documentation

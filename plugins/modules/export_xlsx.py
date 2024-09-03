@@ -29,6 +29,14 @@ options:
     aliases: [ name ]
     default: 'Sheet1'
     type: str
+attributes:
+  check_mode:
+    supports: full
+  diff_mode:
+    support: none
+  platform:
+    platforms: posix
+
 author:
   - Chun Pan Yung
 requirements:
@@ -86,10 +94,11 @@ def run_module():
         changed=False,
         path='',
         rc=1,
-        msg=''
+        msg='',
+        diff={}
     )
 
-    module = AnsibleModule(argument_spec=module_args)
+    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
     # Early return if file does not ends with .xlsx
     path: str = module.params['path']
@@ -128,8 +137,16 @@ def run_module():
         result['changed'] = True
 
     # Write data to excel worksheet if data is different
-    if result['changed']:
+    if result['changed'] and not module.check_mode:
         ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
+
+    # Diff mode
+    result['diff'] = {
+        'before': from_excel.to_string(),
+        'after': ansible_data.to_string(),
+        'before_header': f"{path} (content)",
+        'after_header': f"{path} (content)"
+    }
 
     result['rc'] = 0
     result['path'] = path
