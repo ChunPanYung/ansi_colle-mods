@@ -36,10 +36,10 @@ jobs:
       - name: Install antsibull via pip
         run: pip install ansible-core antsibull-docs
       - name: Install ansible dependencies
-        run: ansible-playbook ${{ GITHUB_WORKSPACE }}/playbooks/install.yml --extra-vars git_version=${{ github_ref_name }}
+        run: ansible-galaxy install -r requirements.yml
       # Setup and configure before building docsite
       - name: Install this ansible collection
-        run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml
+        run: ansible-playbook $GITHUB_WORKSPACE/playbooks/install.yml --extra-vars git_version=$GITHUB_REF_NAME --connection=local
       - name: Build a docsite with antsibull-docs
         run: antsibull-docs sphinx-init --use-current --squash-hierarchy --dest-dir ${{ runner.temp }} ansi_colle.mods
       - name: Install additional pip requirement
