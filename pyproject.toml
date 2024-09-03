@@ -20,7 +20,6 @@ lint = [
   "ansible-lint"
 ]
 doc = [
-  "ansible-core",
   "antsibull-docs"
 ]
 
@@ -37,3 +36,7 @@ distribution = false
 install = "ansible-playbook ansi_colle.mods.install"
 changelog = "git-cliff --prepend CHANGELOG.md --unreleased --tag"
 docs = "antsibull-docs sphinx-init --use-current --squash-hierarchy ansi_colle.mods --dest-dir"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
