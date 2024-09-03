@@ -29,11 +29,13 @@ options:
     aliases: [ name ]
     default: 'Sheet1'
     type: str
+extends_documentation_fragment:
+    - action_common_attributes
 attributes:
   check_mode:
     supports: full
   diff_mode:
-    support: none
+    support: full
   platform:
     platforms: posix
 

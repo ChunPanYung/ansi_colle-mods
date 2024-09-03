@@ -36,6 +36,8 @@ options:
             - First occurence is 0, second is 1, and third is 2 etc.
         default: 0
         type: int
+extends_documentation_fragment:
+    - action_common_attributes
 attributes:
     check_mode:
         supports: full
