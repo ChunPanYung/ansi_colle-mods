@@ -94,7 +94,8 @@ def run_module():
         changed=False,
         path='',
         rc=1,
-        msg=''
+        msg='',
+        diff={}
     )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
@@ -138,6 +139,15 @@ def run_module():
     # Write data to excel worksheet if data is different
     if result['changed'] and not module.check_mode:
         ansible_data.to_excel(path, sheet_name=sheet_name, index=False)
+
+    # Diff mode
+    diff: dict = {
+        'before': from_excel.to_string(),
+        'after': ansible_data.to_string(),
+        'before_header': f"{path} (content)",
+        'after_header': f"{path} (content)"
+    }
+    result['diff'] = diff
 
     result['rc'] = 0
     result['path'] = path
