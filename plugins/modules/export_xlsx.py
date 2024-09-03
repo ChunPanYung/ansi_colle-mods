@@ -37,7 +37,7 @@ attributes:
   diff_mode:
     support: full
   platform:
-    support: posix
+    platforms: posix
 
 author:
   - Chun Pan Yung
