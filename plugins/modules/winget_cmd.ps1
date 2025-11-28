@@ -3,7 +3,7 @@
 #AnsibleRequires -CSharpUtil Ansible.Basic
 #AnsibleRequires -PowerShell ansible.windows.plugins.module_utils.Process
 
-Set-StrictMode -Version "Latest"
+Set-StrictMode -Version Latest
 
 $spec = @{
     options = @{
@@ -23,14 +23,16 @@ $id = $module.Params.id
 # Execute winget command to install packages
 [object[]]$output = $null
 if ($module.Params.state -eq 'present') {
-    $output = winget install --id $id --exact --silent
+    $output = winget install --id $id `
+        --exact --silent --accept-source-agreements --accept-source-agreements
 } else {
-    $output = winget uninstall --id $id --exact --silent
+    $output = winget uninstall --id $id `
+        --exact --silent --accept-source-agreements --accept-source-agreements
 }
 $module.Result.rc = $LASTEXITCODE
 
 switch ($module.Result.rc) {
-    0 { # Sucessfully installed/removed
+    0 { # Successfully installed/removed
         $module.Result.changed = $true
         break
     }
