@@ -3,30 +3,29 @@
 This collection only contains plugins.
 Playbooks directory only contains testing for plugins created.
 
-## Requirements
-
-There are 2 sets of dependencies: python and ansible
-
-### Python
-
-Check [pyproject.toml](./pyproject.toml) for dependencies.
-
-if you use [PDM](https://pdm-project.org):
+## Quick Start
 
 ```bash
-#!/bin/bash
-pdm venv create
-$(pdm venv activate)
-pdm use  # Pick the location of venv
-pdm install --production
+export ANSIBLE_CALLBACK_RESULT_FORMAT=yaml
+
+
+ansible-galaxy collection install \
+  git+https://github.com/ChunPanYung/ansi_colle-mods.git
+
+# Run this to update every time
+ansible-playbook ansi_colle.mods.install
+
+# Run this after update, it will ask you sudo password
+ansible-playbook ansi_colle.mods.site --connection=local \
+  --inventory 127.0.0.1, --ask-become-pass --verbose
 ```
 
-### Ansible
+## Initialize virtual environment
 
-Execute one of following:
+This project use `uv` for Virtual Environment setup.
 
-Install from file: `$ ansible-galaxy install -r requirements.yml`
-Install from CLI: `$ ansible-galaxy collection install git+https://github.com/ChunPanYung/ansi_colle-mods.git`
+`uv sync`: Init and sync project's environment according to `pyproject.toml` file.
+`source .venv/bin/activate`: Activate bash venv.
 
 ## Links
 

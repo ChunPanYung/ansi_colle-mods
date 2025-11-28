@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.3] - 2025-11-28
+
+### 🚀 Features
+
+- Create `taskfile.dist.yml` for quick CLI.
+- Update pre-commit repos.
+- Use `uv` instead of `pdm`.
+
+### 🐛 Bug Fixes
+
+- `winget` now accept agreement by default.
+
+### 📚 Documentation
+
+- Add quick start section.
+- Add `uv` tutorial.
+
 ## [1.3.2] - 2024-09-03
 
 ### Documentation

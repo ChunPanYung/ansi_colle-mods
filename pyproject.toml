@@ -1,37 +1,23 @@
 [project]
 name = "ansi_colle.mods"
-dynamic = ["version"]
-description = "Default template for PDM package"
-authors = [
-    {name = "Chun Pan Yung", email = "31672021+ChunPanYung@users.noreply.github.com"},
-]
-dependencies = [
-  "ansible",
-  "pandas",
-  "openpyxl"
-]
-requires-python = ">=3.12"
+
+version = "1.3.3"
+
+description = "Custom ansible modules."
 readme = "README.md"
-license = {text = "MIT"}
+requires-python = ">=3.13"
 
-[tool.pdm.dev-dependencies]
-lint = [
-  "ansible-lint"
+dependencies = ["ansible>=12.0.0"]
+
+[dependency-groups]
+dev = [
+  "ansible-dev-tools>=25.8.3",
+  "antsibull-docs>=2.21.0",
+  "git-cliff>=2.10.0",
+  "go-task-bin>=3.45.4",
+  "pre-commit>=4.3.0",
+  "ruff>=0.13.1",
+  "validate-pyproject>=0.24.1",
+  "pandas",
+  "openpyxl",
 ]
-doc = [
-  "antsibull-docs"
-]
-
-[tool.pdm.resolution.overrides]
-will-not-work-on-windows-try-from-wsl-instead = "0.1.0"  # ignore ansible-lint install error
-
-[tool.pdm.version]
-source = "scm"
-
-[tool.pdm]
-distribution = false
-
-[tool.pdm.scripts]
-install = "ansible-playbook ansi_colle.mods.install"
-changelog = "git-cliff --prepend CHANGELOG.md --unreleased --tag"
-docs = "antsibull-docs sphinx-init --use-current --squash-hierarchy ansi_colle.mods --dest-dir"

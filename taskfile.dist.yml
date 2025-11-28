@@ -1,0 +1,66 @@
+---
+version: "3"
+
+tasks:
+  changelog:*:
+    desc: |
+      Create or append to CHANGELOG.md, and tag current commit.
+      TAG -> ex: '1.0.1' will create 'v1.0.1'.
+      It will also update versioning file.
+    vars:
+      TAG: "{{index .MATCH 0}}"
+      REPLACE_CMD: sed --in-place --regexp-extended
+    cmds:
+      - cmd: >-
+          uv version {{.TAG }}
+      - cmd: >-
+          sed --in-place --regexp-extended 's/version:.*/version: "{{.TAG}}"/'
+          {{.ROOT_DIR}}/galaxy.yml
+      - cmd: >-
+          git-cliff --prepend CHANGELOG.md --unreleased --tag v{{.TAG}}
+
+  install:*:
+    desc: |
+      Install this collection and requirement.
+      Param_1 -> Specify git branch or tag, default is main.
+    vars:
+      BRANCH: '{{index .MATCH 0 | default "main"}}'
+      REPO_URL: git+https://github.com/ChunPanYung/ansi_colle-mods.git
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - ansible-playbook ./playbooks/install.yml --extra-vars git_branch={{.BRANCH}}
+
+  run:local:*:
+    desc: Build and run working directory, then execute this branch with tags specified.
+    vars:
+      TAGS: '{{index .MATCH 0 | default "all"}}'
+      INVENTORY: '{{.INVENTORY | default "hosts.ini"}}'
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - cmd: >-
+          ansible-playbook ansi_colle.mods.site --ask-become-pass
+          --inventory {{.INVENTORY}} --tags {{.TAGS}}
+
+  build:docs:
+    desc: Install current repo locally and create documentation using `antsibull-docs`.
+    dir: "{{.ROOT_DIR}}"
+    vars:
+      DIST_DOCS: "{{.ROOT_DIR}}/dist/docs"
+      COLLECTION_NAME: ansi_colle.mods
+    cmds:
+      - task: install:local
+      - mkdir --parent {{.DIST_DOCS}}
+      - antsibull-docs sphinx-init --use-current --squash-hierarchy --dest-dir {{.DIST_DOCS}} {{.COLLECTION_NAME}}
+      - pip install --requirement {{.ROOT_DIR}}/dist/docs/requirements.txt
+      - "{{.ROOT_DIR}}/dist/docs/build.sh"
+      -  # Docs site should be located @ `build/html/index.html`
+
+  watch:docs:
+    desc: Watch changes on `argument_specs.yml` file and create docsite when changed.
+    watch: true
+    sources:
+      - "**/argument_specs.yml"
+    generates:
+      - "{{.ROOT_DIR}}/dist/docs/build/html/index.html"
+    cmds:
+      - task: build:docs
