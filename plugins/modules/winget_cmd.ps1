@@ -8,6 +8,7 @@ Set-StrictMode -Version Latest
 $spec = @{
     options = @{
         id = @{ type = "str"; required = $true }
+        scope = @{ type = "str"; default = "user" ; choices = "user", "machine" }
         state = @{ type = "str"; default = "present" ; choices = "absent", "present" }
     }
     supports_check_mode = $false
@@ -19,14 +20,15 @@ $spec = @{
 $module.Result.changed = $false
 $module.Result.failed = $false
 $id = $module.Params.id
+$scope = $module.Params.scope
 
 # Execute winget command to install packages
 [object[]]$output = $null
 if ($module.Params.state -eq 'present') {
-    $output = winget install --id $id `
+    $output = winget install --id $id --scope $scope `
         --exact --silent --accept-source-agreements --accept-source-agreements
 } else {
-    $output = winget uninstall --id $id `
+    $output = winget uninstall --id $id --scope $scope `
         --exact --silent --accept-source-agreements --accept-source-agreements
 }
 $module.Result.rc = $LASTEXITCODE

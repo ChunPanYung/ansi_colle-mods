@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: winget_cmd
 short_description: Execute winget command to either install or remova package.
@@ -8,31 +8,38 @@ description:
   - Assume ansible_user has administrator privilege.
   - Windows only.
 options:
+  id:
+    description:
+      - Install package by its ID.
+      - Must be exact matched.
+    type: str
+  scope:
+    description:
+      - Whether to install on (V(user)), or (V(machine)) scope for packages.
+      - Default is V(user).
+    choices: ['user', 'machine']
+    type: str
   state:
     description:
       - Whether to install (V(present)), or remove (V(absent)) a package.
       - Default is V(present).
     choices: ['absent', 'present']
     type: str
-  id:
-    description:
-      - Install package by its ID.
-      - Must be exact matched.
-    type: str
-'''
+"""
 
-EXAMPLES = r'''
+EXAMPLES = r"""
 - name: Install firefox, ID must be exact matched
   ansi_colle.mods.winget_cmd:
     id: Mozilla.Firefox
+    scope: user
 
 - name: Remove 7-Zip
   ansi_colle.mods.winget_cmd:
     id: 7zip.7zip
     state: absent
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
 changed:
   description: Whether it has either sucessfully installed or uninstalled a package.
   returned: always
@@ -48,4 +55,4 @@ output:
   returned: return code is not understood.
   type: str
   sample: 'Unrecognized command.'
-'''
+"""
