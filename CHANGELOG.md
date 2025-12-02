@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2025-12-02
+
+### 🚀 Features
+
+- Add installation scope.
+- [**breaking**] Remove unused file.
+
 ## [1.3.3] - 2025-11-28
 
 ### 🚀 Features
